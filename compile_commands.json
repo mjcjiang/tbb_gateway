@@ -1,0 +1,21 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/c++",
+      "-I/home/hjiang/craft/tbb_gateway/deps/libzmq-4.3.4/include",
+      "-I/home/hjiang/craft/tbb_gateway/deps/cppzmq-4.9.0/include",
+      "-I/home/hjiang/craft/tbb_gateway/deps/ctp-6.6.7/include",
+      "-I/home/hjiang/craft/tbb_gateway/deps/boost-1.82.0/include",
+      "-I/home/hjiang/craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v",
+      "-I/home/hjiang/craft/tbb_gateway/deps/onetbb-1.0.0/include",
+      "-I/home/hjiang/craft/tbb_gateway/include",
+      "-c",
+      "-o",
+      "CMakeFiles/onetbb_test.dir/onetbb_test.cc.o",
+      "/home/hjiang/craft/tbb_gateway/services/onetbb_test.cc"
+    ],
+    "directory": "/home/hjiang/craft/tbb_gateway/build/services",
+    "file": "/home/hjiang/craft/tbb_gateway/services/onetbb_test.cc",
+    "output": "/home/hjiang/craft/tbb_gateway/build/services/CMakeFiles/onetbb_test.dir/onetbb_test.cc.o"
+  }
+]

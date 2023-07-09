@@ -10,3 +10,6 @@ target_link_libraries(ice_publisher iceoryx_posh iceoryx_dust iceoryx_hoofs iceo
 
 add_executable (ice_subscriber ice_subscriber.cc)
 target_link_libraries(ice_subscriber iceoryx_posh iceoryx_dust iceoryx_hoofs iceoryx_platform)
+
+add_executable (onetbb_test onetbb_test.cc)
+target_link_libraries(onetbb_test tbb)
