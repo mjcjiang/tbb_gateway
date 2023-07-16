@@ -3,6 +3,7 @@ PROJECT(zeromq_project)
 SET(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_EXE_LINKER_FLAGS "-Wl,-copy-dt-needed-entries")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 ############################################################
 INCLUDE_DIRECTORIES(deps/libzmq-4.3.4/include)
 INCLUDE_DIRECTORIES(deps/cppzmq-4.9.0/include)
