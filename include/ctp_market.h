@@ -12,8 +12,7 @@ public:
     //after establish connection to NGTS, do user login
     void OnFrontConnected() {
         CThostFtdcReqUserLoginField login_field;
-        login_field.
-            //m_api->ReqUserLogin(CThostFtdcReqUserLoginField *pReqUserLoginField, int nRequestID) = 0;
+        //m_api->ReqUserLogin(CThostFtdcReqUserLoginField *pReqUserLoginField, int nRequestID) = 0;
     }
   private:
     std::unique_ptr<CThostFtdcMdApi> m_Api;
