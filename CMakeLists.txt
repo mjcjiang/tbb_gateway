@@ -3,7 +3,6 @@ PROJECT(gateway_project)
 SET(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_EXE_LINKER_FLAGS "-Wl,-copy-dt-needed-entries")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
 ############################################################
 INCLUDE_DIRECTORIES(deps/libzmq-4.3.4/include)
 INCLUDE_DIRECTORIES(deps/cppzmq-4.9.0/include)
@@ -20,9 +19,9 @@ execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/
 execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/deps/iceoryx-1.0.0/lib lib)
 execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/deps/onetbb-1.0.0/lib lib)
 
-file(COPY ${CMAKE_SOURCE_DIR}/deps/iceoryx-1.0.0/bin/iox-roudi DESTINATION services)
-set(LIBRARY_OUTPUT_PATH "${PROJECT_BINRY_DIR}/lib")
+file(COPY ${CMAKE_SOURCE_DIR}/deps/iceoryx-1.0.0/bin/iox-roudi DESTINATION apps)
+set(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/lib")
 
 ADD_SUBDIRECTORY(deps)
 ADD_SUBDIRECTORY(src)
-ADD_SUBDIRECTORY(services)
+ADD_SUBDIRECTORY(apps)

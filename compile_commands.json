@@ -1,22 +1,27 @@
 [
 {
-  "directory": "/home/hjiang/craft/tbb_gateway/build/services",
-  "command": "/usr/bin/c++  -I/home/hjiang/craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/craft/tbb_gateway/deps/ctp-6.6.7/include -I/home/hjiang/craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/craft/tbb_gateway/include  -o CMakeFiles/boost_test.dir/boost_test.cc.o -c /home/hjiang/craft/tbb_gateway/services/boost_test.cc",
-  "file": "/home/hjiang/craft/tbb_gateway/services/boost_test.cc"
+  "directory": "/home/hjiang/craft/tbb_gateway/build/src",
+  "command": "/usr/bin/c++  -I/home/hjiang/craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/craft/tbb_gateway/include  -o CMakeFiles/src_lib.dir/ctp_market.cc.o -c /home/hjiang/craft/tbb_gateway/src/ctp_market.cc",
+  "file": "/home/hjiang/craft/tbb_gateway/src/ctp_market.cc"
 },
 {
-  "directory": "/home/hjiang/craft/tbb_gateway/build/services",
-  "command": "/usr/bin/c++  -I/home/hjiang/craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/craft/tbb_gateway/deps/ctp-6.6.7/include -I/home/hjiang/craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/craft/tbb_gateway/include  -o CMakeFiles/ice_publisher.dir/ice_publisher.cc.o -c /home/hjiang/craft/tbb_gateway/services/ice_publisher.cc",
-  "file": "/home/hjiang/craft/tbb_gateway/services/ice_publisher.cc"
+  "directory": "/home/hjiang/craft/tbb_gateway/build/apps",
+  "command": "/usr/bin/c++  -I/home/hjiang/craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/craft/tbb_gateway/include  -o CMakeFiles/boost_test.dir/boost_test.cc.o -c /home/hjiang/craft/tbb_gateway/apps/boost_test.cc",
+  "file": "/home/hjiang/craft/tbb_gateway/apps/boost_test.cc"
 },
 {
-  "directory": "/home/hjiang/craft/tbb_gateway/build/services",
-  "command": "/usr/bin/c++  -I/home/hjiang/craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/craft/tbb_gateway/deps/ctp-6.6.7/include -I/home/hjiang/craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/craft/tbb_gateway/include  -o CMakeFiles/ice_subscriber.dir/ice_subscriber.cc.o -c /home/hjiang/craft/tbb_gateway/services/ice_subscriber.cc",
-  "file": "/home/hjiang/craft/tbb_gateway/services/ice_subscriber.cc"
+  "directory": "/home/hjiang/craft/tbb_gateway/build/apps",
+  "command": "/usr/bin/c++  -I/home/hjiang/craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/craft/tbb_gateway/include  -o CMakeFiles/ice_publisher.dir/ice_publisher.cc.o -c /home/hjiang/craft/tbb_gateway/apps/ice_publisher.cc",
+  "file": "/home/hjiang/craft/tbb_gateway/apps/ice_publisher.cc"
 },
 {
-  "directory": "/home/hjiang/craft/tbb_gateway/build/services",
-  "command": "/usr/bin/c++  -I/home/hjiang/craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/craft/tbb_gateway/deps/ctp-6.6.7/include -I/home/hjiang/craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/craft/tbb_gateway/include  -o CMakeFiles/test_zmq.dir/test_zmq.cc.o -c /home/hjiang/craft/tbb_gateway/services/test_zmq.cc",
-  "file": "/home/hjiang/craft/tbb_gateway/services/test_zmq.cc"
+  "directory": "/home/hjiang/craft/tbb_gateway/build/apps",
+  "command": "/usr/bin/c++  -I/home/hjiang/craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/craft/tbb_gateway/include  -o CMakeFiles/ice_subscriber.dir/ice_subscriber.cc.o -c /home/hjiang/craft/tbb_gateway/apps/ice_subscriber.cc",
+  "file": "/home/hjiang/craft/tbb_gateway/apps/ice_subscriber.cc"
+},
+{
+  "directory": "/home/hjiang/craft/tbb_gateway/build/apps",
+  "command": "/usr/bin/c++  -I/home/hjiang/craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/craft/tbb_gateway/include  -o CMakeFiles/test_name.dir/test_name.cc.o -c /home/hjiang/craft/tbb_gateway/apps/test_name.cc",
+  "file": "/home/hjiang/craft/tbb_gateway/apps/test_name.cc"
 }
 ]
