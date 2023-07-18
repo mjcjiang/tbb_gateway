@@ -1,4 +1,3 @@
-#include <spdlog/logger.h>
 #include <spdlog/spdlog.h>
 #include "config_fetch.h"
 #include "ctp_market.h"
