@@ -31,7 +31,6 @@ int main() {
 
     sem.Wait();
     SPDLOG_INFO("Finish login...");
-
     //TODO: start to listen on some port, use zero mq, process user login and subscribe
     
     return 0;
