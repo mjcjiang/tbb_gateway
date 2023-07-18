@@ -1,0 +1,25 @@
+#include <mutex>
+#include <condition_variable>
+
+class Semaphore {
+ public:
+    static Semaphore& GetInstance() {
+        static Semaphore instance;
+        return instance;
+    }
+
+    // fobidden the copy constructor and copy assignment constructor
+    Semaphore(const Semaphore&) = delete;
+    Semaphore& operator=(const Semaphore&) = delete;
+
+    void Wait();
+    void Signal();
+ private:
+    Semaphore() {}
+
+    static Semaphore instance;
+ private:
+    std::mutex mutex_;
+    std::condition_variable condition_;
+    int count_ = 0;
+};
