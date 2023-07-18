@@ -10,6 +10,7 @@ INCLUDE_DIRECTORIES(deps/ctp-6.6.1/include)
 INCLUDE_DIRECTORIES(deps/boost-1.82.0/include)
 INCLUDE_DIRECTORIES(deps/iceoryx-1.0.0/include/iceoryx/v)
 INCLUDE_DIRECTORIES(deps/onetbb-1.0.0/include/)
+INCLUDE_DIRECTORIES(deps/json-3.11.2/include/single_include)
 INCLUDE_DIRECTORIES(include)
 
 execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/deps/libzmq-4.3.4/lib lib)
@@ -20,6 +21,7 @@ execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/
 execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/deps/onetbb-1.0.0/lib lib)
 
 file(COPY ${CMAKE_SOURCE_DIR}/deps/iceoryx-1.0.0/bin/iox-roudi DESTINATION apps)
+file(COPY ${CMAKE_SOURCE_DIR}/configs DESTINATION apps)
 set(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/lib")
 
 ADD_SUBDIRECTORY(deps)
