@@ -1,9 +1,29 @@
+/**
+ * @file config_fetch.h
+ * @brief read system config from json file(s)
+ *
+ * As the running system need some configs to work, we store
+ * all the configs in json files. This this the interface to
+ * read or write this json files.
+ *
+ * @date 2023-07-18
+ */
+
+#ifndef CTP_MARKET_H
+#define CTP_MARKET_H
+
 #include <iostream>
 #include <string>
 #include <memory>
+#include <thread>
+#include <mutex>
+
 #include "semaphore.h"
 #include "spdlog/spdlog.h"
 #include "ThostFtdcMdApi.h"
+
+constexpr int INSTS_BUFF_SIZE = 60000;           //限制最多发送产品个数
+constexpr int INSTS_SEND_CHUNCK_SIZE = 500;      //限制最大的订阅单位
 
 class MdHandler : public CThostFtdcMdSpi {
 public:
@@ -12,47 +32,30 @@ public:
     ~MdHandler() {}
 
     //reload from CThostFtdcMdSpi, when connect to front mechine finished
-    virtual void OnFrontConnected() {
-        SPDLOG_INFO("Market front mechine connection finish!");
-        Semaphore& sem = Semaphore::GetInstance();
-        sem.Signal();
-    }
+    virtual void OnFrontConnected();
 
-    virtual void OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
-        SPDLOG_INFO("<OnRspUserLogin>");
-        if (pRspUserLogin) {
-            SPDLOG_INFO("TradingDay: {}", pRspUserLogin->TradingDay);
-            SPDLOG_INFO("LoginTime: {}", pRspUserLogin->LoginTime);
-            SPDLOG_INFO("BrokerID: {}", pRspUserLogin->BrokerID);
-            SPDLOG_INFO("UserID: {}", pRspUserLogin->UserID);
-            SPDLOG_INFO("SystemName: {}", pRspUserLogin->SystemName);
-            SPDLOG_INFO("MaxOrderRef: {}", pRspUserLogin->MaxOrderRef);
-            SPDLOG_INFO("SHFETime: {}", pRspUserLogin->SHFETime);
-            SPDLOG_INFO("DCETime: {}", pRspUserLogin->DCETime);
-            SPDLOG_INFO("CZCETime: {}", pRspUserLogin->CZCETime);
-            SPDLOG_INFO("FFEXTime: {}", pRspUserLogin->FFEXTime);
-            SPDLOG_INFO("INETime: {}", pRspUserLogin->INETime);
-            SPDLOG_INFO("FrontID: {}", pRspUserLogin->FrontID);
-            SPDLOG_INFO("SessionID: {}", pRspUserLogin->SessionID);
-        }
+    //reload from CThostFtdcMdSpi, when user login replyed
+    virtual void OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-        if (pRspInfo) {
-            SPDLOG_INFO("ErrorMsg: {}", pRspInfo->ErrorMsg);
-            SPDLOG_INFO("ErrorID: {}", pRspInfo->ErrorID);
-        }
+    //subscribe market data of multiple instruments
+    void SubscribeMarketData(const std::vector<std::string>& instruments);
 
-        SPDLOG_INFO("nRequestID {}", nRequestID);
-        SPDLOG_INFO("bIsLast {}", bIsLast);
-        SPDLOG_INFO("</OnRspUserLogin>");
-        if (pRspInfo->ErrorID != 0) {
-            //Failed to login, client do some error processing...
-        }
-        
-        Semaphore& sem = Semaphore::GetInstance();
-        sem.Signal();
-    };
+    //unsubscribe market data of multiple instruments
+    void UnSubscribeMarketData(const std::vector<std::string>& instruments);
 
-  private:
+    //the callback when subscribe market data
+    virtual void OnRspSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+
+    //the callback when unsubscribe market data
+    virtual void OnRspUnSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+
+    //set the logging status
+    void set_logging_status(bool status);
+private:
     CThostFtdcMdApi *m_Api = nullptr;
     int m_RequestId;
+    bool islogged_ = false;
+    std::mutex mutex_; 
 };
+
+#endif // CTP_MARKET_H

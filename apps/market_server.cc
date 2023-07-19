@@ -1,3 +1,4 @@
+#include <string>
 #include <spdlog/spdlog.h>
 #include "config_fetch.h"
 #include "ctp_market.h"
@@ -11,14 +12,13 @@ int main() {
     }
     
     Semaphore &sem = Semaphore::GetInstance();
-    CThostFtdcMdApi *pUserMdApi =
-        CThostFtdcMdApi::CreateFtdcMdApi("", false, false);
+    CThostFtdcMdApi *pUserMdApi = CThostFtdcMdApi::CreateFtdcMdApi("", false, false);
     MdHandler md_handler(pUserMdApi);
 
     pUserMdApi->RegisterSpi(&md_handler);
     pUserMdApi->RegisterFront(const_cast<char *>(acct_info.md_uri.c_str()));
-    SPDLOG_INFO("RegisterFront {}", acct_info.md_uri);
     pUserMdApi->Init();
+    SPDLOG_INFO("RegisterFront {}", acct_info.md_uri);
     
     // wait for signal
     SPDLOG_INFO("Wait front connection established...");
@@ -32,8 +32,15 @@ int main() {
 
     sem.Wait();
     SPDLOG_INFO("Finish login...");
-    // TODO: start to listen on some port, use zero mq, process user login and
+    // TODO: start to listen on some port, use zeromq, process user login and
     // subscribe
-  
+    std::vector<std::string> insts = {"IO2308-C-4000"};
+    md_handler.SubscribeMarketData(insts);
+    sem.Wait();
+    SPDLOG_INFO("Subscribe finish...");
+
+    md_handler.UnSubscribeMarketData(insts);
+    sem.Wait();
+    SPDLOG_INFO("Unsubscribe finish...");
     return 0;
 }
