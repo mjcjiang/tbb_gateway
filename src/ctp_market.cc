@@ -221,3 +221,7 @@ void MdHandler::OnRspUnSubMarketData(CThostFtdcSpecificInstrumentField *pSpecifi
         send_signal();
     }
 }
+
+void MdHandler::OnRtnDepthMarketData(
+    CThostFtdcDepthMarketDataField *pDepthMarketData) {
+}

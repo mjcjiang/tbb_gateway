@@ -37,12 +37,12 @@ int main() {
     
     // TODO: start to listen on some port, use zeromq, process user login and
     // subscribe
-    /*
     std::vector<std::string> insts = {"IO2308-C-4000"};
     md_handler.SubscribeMarketData(insts);
     sem.Wait();
     SPDLOG_INFO("Subscribe finish...");
 
+    /*
     md_handler.UnSubscribeMarketData(insts);
     sem.Wait();
     SPDLOG_INFO("Unsubscribe finish...");

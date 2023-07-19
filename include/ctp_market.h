@@ -59,6 +59,9 @@ public:
     //the callback when unsubscribe market data
     virtual void OnRspUnSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
+    //the callback when market data comming
+    virtual void OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMarketData);
+
     //set the frontend connect status
     void set_connect_status(bool status);
     bool get_connect_status();
