@@ -30,6 +30,7 @@ class MdHandler : public CThostFtdcMdSpi {
 public:
     //constructor, need a valid pointer to CThostFtdcMdApi
     MdHandler(CThostFtdcMdApi *pMdApi) : m_Api(pMdApi) {}
+
     ~MdHandler() {}
 
     //reload from CThostFtdcMdSpi, when connect to front mechine finished
@@ -62,22 +63,26 @@ public:
     //the callback when market data comming
     virtual void OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMarketData);
 
-    //set the frontend connect status
+    //set frontend connect status
     void set_connect_status(bool status);
+
+    //get frontend connect status
     bool get_connect_status();
     
-    //set the logging status
+    //set logging status
     void set_logging_status(bool status);
+
+    //get logging status
     bool get_logging_status();
 
-    //signal send
+    //signal send(use semaphore)
     void send_signal();
 private:
     CThostFtdcMdApi *m_Api = nullptr;
-    int m_RequestId = 1;
     bool isFrontConnected_ = false;
     bool isLogged_ = false;
-    std::mutex mutex_; 
+    std::mutex mutex_;
+    int m_RequestId = 1;
 };
 
 #endif // CTP_MARKET_H
