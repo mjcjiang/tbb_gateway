@@ -20,6 +20,7 @@
 
 #include "semaphore.h"
 #include "spdlog/spdlog.h"
+#include "config_fetch.h"
 #include "ThostFtdcMdApi.h"
 
 constexpr int INSTS_BUFF_SIZE = 60000;           //限制最多发送产品个数
@@ -34,8 +35,17 @@ public:
     //reload from CThostFtdcMdSpi, when connect to front mechine finished
     virtual void OnFrontConnected();
 
+    //request login
+    void ReqUserLogin(const AccountInfo& account_info);
+
+    //request logout
+    void ReqUserLogout(const AccountInfo& account_info);
+    
     //reload from CThostFtdcMdSpi, when user login replyed
     virtual void OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+
+    //reload from CThostFtdcMdSpi, when user logout replyed
+    virtual void OnRspUserLogout(CThostFtdcUserLogoutField* pUserLogout, CThostFtdcRspInfoField* pRspInfo, int nRequestID, bool bIsLast);
 
     //subscribe market data of multiple instruments
     void SubscribeMarketData(const std::vector<std::string>& instruments);
@@ -49,12 +59,21 @@ public:
     //the callback when unsubscribe market data
     virtual void OnRspUnSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
+    //set the frontend connect status
+    void set_connect_status(bool status);
+    bool get_connect_status();
+    
     //set the logging status
     void set_logging_status(bool status);
+    bool get_logging_status();
+
+    //signal send
+    void send_signal();
 private:
     CThostFtdcMdApi *m_Api = nullptr;
-    int m_RequestId;
-    bool islogged_ = false;
+    int m_RequestId = 1;
+    bool isFrontConnected_ = false;
+    bool isLogged_ = false;
     std::mutex mutex_; 
 };
 

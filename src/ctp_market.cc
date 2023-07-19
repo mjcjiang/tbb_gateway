@@ -2,8 +2,29 @@
 
 void MdHandler::OnFrontConnected() {
     SPDLOG_INFO("Market front mechine connection finish!");
-    Semaphore& sem = Semaphore::GetInstance();
-    sem.Signal();
+    send_signal();
+}
+
+void MdHandler::ReqUserLogin(const AccountInfo& account_info) {
+    CThostFtdcReqUserLoginField reqUserLogin = {0};
+    memcpy(reqUserLogin.BrokerID, account_info.broker_id.c_str(), account_info.broker_id.size());
+    memcpy(reqUserLogin.UserID, account_info.account_id.c_str(), account_info.account_id.size());
+    memcpy(reqUserLogin.Password, account_info.password.c_str(), account_info.password.size());
+    if (get_connect_status()) {
+        m_Api->ReqUserLogin(&reqUserLogin, m_RequestId);
+        m_RequestId++;
+    }
+}
+
+//void MdHandler::ReqUserLogout(const std::string &broker_id, const std::string &user_id) {
+void MdHandler::ReqUserLogout(const AccountInfo& account_info) {
+    CThostFtdcUserLogoutField reqUserLogout = {0};
+    memcpy(reqUserLogout.BrokerID, account_info.broker_id.c_str(), account_info.broker_id.size());
+    memcpy(reqUserLogout.UserID, account_info.account_id.c_str(), account_info.account_id.size());
+    if (get_connect_status()) {
+        m_Api->ReqUserLogout(&reqUserLogout, m_RequestId);
+        m_RequestId++;
+    }
 }
 
 void MdHandler::OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
@@ -40,9 +61,25 @@ void MdHandler::OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
 
     //用户登陆成功,状态设置
     set_logging_status(true);
-    
-    Semaphore& sem = Semaphore::GetInstance();
-    sem.Signal();
+    send_signal();
+}
+
+void MdHandler::OnRspUserLogout(CThostFtdcUserLogoutField* pUserLogout, CThostFtdcRspInfoField* pRspInfo, int nRequestID, bool bIsLast) {
+    SPDLOG_INFO("<OnRspUserLogout>");
+    if (pUserLogout) {
+        SPDLOG_INFO("BrokerID: {}", pUserLogout->BrokerID);
+        SPDLOG_INFO("UserID: {}", pUserLogout->UserID);
+    }
+
+    if (pRspInfo && pRspInfo->ErrorID) {
+        SPDLOG_INFO("ErrorMsg: {}", pRspInfo->ErrorMsg);
+        SPDLOG_INFO("ErrorID: {}", pRspInfo->ErrorID);
+    }
+
+    SPDLOG_INFO("nRequestID {}", nRequestID);
+    SPDLOG_INFO("bIsLast {]", bIsLast);
+    SPDLOG_INFO("</OnRspUserLogout>");
+    send_signal();
 }
 
 void MdHandler::SubscribeMarketData(const std::vector<std::string>& instruments) {
@@ -119,9 +156,29 @@ void MdHandler::UnSubscribeMarketData(const std::vector<std::string>& instrument
     }
 }
 
+void MdHandler::set_connect_status(bool status) {
+    std::lock_guard<std::mutex> lock_(mutex_);
+    isFrontConnected_ = status;
+}
+
+bool MdHandler::get_connect_status() {
+    std::lock_guard<std::mutex> lock_(mutex_);
+    return isFrontConnected_;
+}
+
 void MdHandler::set_logging_status(bool status) {
     std::lock_guard<std::mutex> lock_(mutex_);
-    islogged_ = status;
+    isLogged_ = status;
+}
+
+bool MdHandler::get_logging_status() {
+    std::lock_guard<std::mutex> lock_(mutex_);
+    return isLogged_;
+}
+
+void MdHandler::send_signal() {
+    Semaphore& sem = Semaphore::GetInstance();
+    sem.Signal();
 }
 
 void MdHandler::OnRspSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument,
@@ -141,8 +198,7 @@ void MdHandler::OnRspSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificI
     SPDLOG_INFO("bIsLast {}", bIsLast);
     SPDLOG_INFO("</OnRspSubMarketData>");
     if (bIsLast) {
-        Semaphore &sem = Semaphore::GetInstance();
-        sem.Signal();
+        send_signal();
     }
 }
 
@@ -162,7 +218,6 @@ void MdHandler::OnRspUnSubMarketData(CThostFtdcSpecificInstrumentField *pSpecifi
     SPDLOG_INFO("bIsLast {}", bIsLast);
     SPDLOG_INFO("</OnRspUnSubMarketData>");
     if (bIsLast) {
-        Semaphore &sem = Semaphore::GetInstance();
-        sem.Signal();
+        send_signal();
     }
 }

@@ -18,22 +18,26 @@ int main() {
     pUserMdApi->RegisterSpi(&md_handler);
     pUserMdApi->RegisterFront(const_cast<char *>(acct_info.md_uri.c_str()));
     pUserMdApi->Init();
-    SPDLOG_INFO("RegisterFront {}", acct_info.md_uri);
     
-    // wait for signal
     SPDLOG_INFO("Wait front connection established...");
     sem.Wait();
+    md_handler.set_connect_status(true);
 
     SPDLOG_INFO("Start login...");
-    CThostFtdcReqUserLoginField reqUserLogin = {0};
-    memcpy(reqUserLogin.BrokerID, acct_info.broker_id.c_str(),
-           acct_info.broker_id.size());
-    pUserMdApi->ReqUserLogin(&reqUserLogin, 2);
-
+    md_handler.ReqUserLogin(acct_info);
     sem.Wait();
     SPDLOG_INFO("Finish login...");
+
+    /*
+    SPDLOG_INFO("Start logout...");
+    md_handler.ReqUserLogout(acct_info);
+    sem.Wait();
+    SPDLOG_INFO("Finish logout...");
+    */
+    
     // TODO: start to listen on some port, use zeromq, process user login and
     // subscribe
+    /*
     std::vector<std::string> insts = {"IO2308-C-4000"};
     md_handler.SubscribeMarketData(insts);
     sem.Wait();
@@ -42,5 +46,6 @@ int main() {
     md_handler.UnSubscribeMarketData(insts);
     sem.Wait();
     SPDLOG_INFO("Unsubscribe finish...");
+    */
     return 0;
 }
