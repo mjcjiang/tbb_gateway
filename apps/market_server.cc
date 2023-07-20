@@ -1,10 +1,18 @@
 #include <string>
+#include <csignal>
 #include <spdlog/spdlog.h>
 #include "config_fetch.h"
 #include "ctp_market.h"
 #include "ThostFtdcMdApi.h"
 
+void signalHandler(int signal) {
+    std::cout << "Ctrl+C signal received. Exiting..." << std::endl;
+    exit(signal);
+}
+
 int main() {
+    std::signal(SIGINT, signalHandler);
+    
     AccountInfo acct_info;
     int res = get_account_info("./configs/account.json", acct_info);
     if (res) {
@@ -41,11 +49,16 @@ int main() {
     md_handler.SubscribeMarketData(insts);
     sem.Wait();
     SPDLOG_INFO("Subscribe finish...");
-
+    
     /*
     md_handler.UnSubscribeMarketData(insts);
     sem.Wait();
     SPDLOG_INFO("Unsubscribe finish...");
     */
+
+    while (true) {
+        // Your program logic here
+    }
+    
     return 0;
 }

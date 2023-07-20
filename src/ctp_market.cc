@@ -224,5 +224,51 @@ void MdHandler::OnRspUnSubMarketData(CThostFtdcSpecificInstrumentField *pSpecifi
 }
 
 void MdHandler::OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMarketData) {
-    
+    if (pDepthMarketData) {
+        SPDLOG_INFO("TradingDay {}", pDepthMarketData->TradingDay);
+        SPDLOG_INFO("InstrumentID {}", pDepthMarketData->InstrumentID);
+        SPDLOG_INFO("ExchangeID {}", pDepthMarketData->ExchangeID);
+        SPDLOG_INFO("ExchangeInstID {}", pDepthMarketData->ExchangeInstID);
+        SPDLOG_INFO("UpdateTime {}", pDepthMarketData->UpdateTime);
+        SPDLOG_INFO("ActionDay {}", pDepthMarketData->ActionDay);
+        SPDLOG_INFO("Volume {}", pDepthMarketData->Volume);
+        SPDLOG_INFO("UpdateMillisec {}", pDepthMarketData->UpdateMillisec);
+        SPDLOG_INFO("BidVolume1 {}", pDepthMarketData->BidVolume1);
+        SPDLOG_INFO("AskVolume1 {}", pDepthMarketData->AskVolume1);
+        SPDLOG_INFO("BidVolume2 {}", pDepthMarketData->BidVolume2);
+        SPDLOG_INFO("AskVolume2 {}", pDepthMarketData->AskVolume2);
+        SPDLOG_INFO("BidVolume3 {}", pDepthMarketData->BidVolume3);
+        SPDLOG_INFO("AskVolume3 {}", pDepthMarketData->AskVolume3);
+        SPDLOG_INFO("BidVolume4 {}", pDepthMarketData->BidVolume4);
+        SPDLOG_INFO("AskVolume4 {}", pDepthMarketData->AskVolume4);
+        SPDLOG_INFO("BidVolume5 {}", pDepthMarketData->BidVolume5);
+        SPDLOG_INFO("AskVolume5 {}", pDepthMarketData->AskVolume5);
+        SPDLOG_INFO("LastPrice {}", (pDepthMarketData->LastPrice > 10000000) ? 0 : pDepthMarketData->LastPrice);
+        SPDLOG_INFO("PreSettlementPrice {}", (pDepthMarketData->PreSettlementPrice > 10000000) ? 0 : pDepthMarketData->PreSettlementPrice);
+        SPDLOG_INFO("PreClosePrice {}", (pDepthMarketData->PreClosePrice > 10000000) ? 0 : pDepthMarketData->PreClosePrice);
+        SPDLOG_INFO("PreOpenInterest {}", (pDepthMarketData->PreOpenInterest > 10000000) ? 0 : pDepthMarketData->PreOpenInterest);
+        SPDLOG_INFO("OpenPrice {}", (pDepthMarketData->OpenPrice > 10000000) ? 0 : pDepthMarketData->OpenPrice);
+        SPDLOG_INFO("HighestPrice {}", (pDepthMarketData->HighestPrice > 10000000) ? 0 : pDepthMarketData->HighestPrice);
+        SPDLOG_INFO("LowestPrice {}", (pDepthMarketData->LowestPrice > 10000000) ? 0 : pDepthMarketData->LowestPrice);
+        SPDLOG_INFO("Turnover {}", (pDepthMarketData->Turnover > 10000000) ? 0 : pDepthMarketData->Turnover);
+        SPDLOG_INFO("OpenInterest {}", (pDepthMarketData->OpenInterest > 10000000) ? 0 : pDepthMarketData->OpenInterest);
+        SPDLOG_INFO("ClosePrice {}", (pDepthMarketData->ClosePrice > 10000000) ? 0 : pDepthMarketData->ClosePrice);
+        SPDLOG_INFO("SettlementPrice {}", (pDepthMarketData->SettlementPrice > 10000000) ? 0 : pDepthMarketData->SettlementPrice);
+        SPDLOG_INFO("UpperLimitPrice {}", (pDepthMarketData->UpperLimitPrice > 10000000) ? 0 : pDepthMarketData->UpperLimitPrice);
+        SPDLOG_INFO("LowerLimitPrice {}", (pDepthMarketData->LowerLimitPrice > 10000000) ? 0 : pDepthMarketData->LowerLimitPrice);
+        SPDLOG_INFO("PreDelta {}", (pDepthMarketData->PreDelta > 10000000) ? 0 : pDepthMarketData->PreDelta);
+        SPDLOG_INFO("CurrDelta {}", (pDepthMarketData->CurrDelta > 10000000) ? 0 : pDepthMarketData->CurrDelta);
+        SPDLOG_INFO("BidPrice1 {}", (pDepthMarketData->BidPrice1 > 10000000) ? 0 : pDepthMarketData->BidPrice1);
+        SPDLOG_INFO("AskPrice1 {}", (pDepthMarketData->AskPrice1 > 10000000) ? 0 : pDepthMarketData->AskPrice1);
+        SPDLOG_INFO("BidPrice2 {}", (pDepthMarketData->BidPrice2 > 10000000) ? 0 : pDepthMarketData->BidPrice2);
+        SPDLOG_INFO("AskPrice2 {}", (pDepthMarketData->AskPrice2 > 10000000) ? 0 : pDepthMarketData->AskPrice2);
+        SPDLOG_INFO("BidPrice3 {}", (pDepthMarketData->BidPrice3 > 10000000) ? 0 : pDepthMarketData->BidPrice3);
+        SPDLOG_INFO("AskPrice3 {}", (pDepthMarketData->AskPrice3 > 10000000) ? 0 : pDepthMarketData->AskPrice3);
+        SPDLOG_INFO("BidPrice4 {}", (pDepthMarketData->BidPrice4 > 10000000) ? 0 : pDepthMarketData->BidPrice4);
+        SPDLOG_INFO("AskPrice4 {}", (pDepthMarketData->AskPrice4 > 10000000) ? 0 : pDepthMarketData->AskPrice4);
+        SPDLOG_INFO("BidPrice5 {}", (pDepthMarketData->BidPrice5 > 10000000) ? 0 : pDepthMarketData->BidPrice5);
+        SPDLOG_INFO("AskPrice5 {}", (pDepthMarketData->AskPrice5 > 10000000) ? 0 : pDepthMarketData->AskPrice5);
+        SPDLOG_INFO("AveragePrice {}", (pDepthMarketData->AveragePrice > 10000000) ? 0 : pDepthMarketData->AveragePrice);
+    }
+    SPDLOG_INFO("</OnRtnDepthMarketData>");
 }
