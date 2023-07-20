@@ -26,14 +26,14 @@ class TimeProc {
     }
 
     static inline int64_t get_timestamp_in_nanoseconds() {
-        return duration_cast<nanoseconds>(system_clock::now().time_since_epoch()).count() % 1000000000;
+        return time_point_cast<nanoseconds>(system_clock::now()).time_since_epoch().count();
     }
 
     static inline int64_t get_timestamp_in_microseconds() {
-        return duration_cast<microseconds>(system_clock::now().time_since_epoch()).count() % 1000000;
+        return time_point_cast<microseconds>(system_clock::now()).time_since_epoch().count();
     }
 
     static inline int64_t get_timestamp_in_milliseconds() {
-        return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count() % 1000;
+        return time_point_cast<milliseconds>(system_clock::now()).time_since_epoch().count();
     }
 };

@@ -76,5 +76,18 @@ int main() {
     //test_date_fmt();
     std::cout << TimeProc::get_readable_timestamp_with_ms() << std::endl;
     std::cout << TimeProc::get_timestamp_in_nanoseconds() << std::endl;
+
+    // 获取当前时间的纳秒级别时间戳
+    auto ns_now = std::chrono::time_point_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
+
+    // 获取当前时间的微秒级别时间戳
+    auto us_now = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
+
+    // 获取当前时间的毫秒级别时间戳
+    auto ms_now = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
+
+    std::cout << "Nanoseconds: " << ns_now << std::endl;
+    std::cout << "Microseconds: " << us_now << std::endl;
+    std::cout << "Milliseconds: " << ms_now << std::endl;
     return 0;
 }

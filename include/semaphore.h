@@ -1,3 +1,10 @@
+/**
+ * @file semaphore.h
+ * @brief semaphore, thread commulication tool
+ *
+ * @date 2023-07-20
+ */
+
 #include <mutex>
 #include <condition_variable>
 
