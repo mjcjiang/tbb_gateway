@@ -1,34 +1,80 @@
 #include <iostream>
 #include "date/date.h"
-#include "date/tz.h"
+#include <chrono>
+#include "fmt/core.h"
+#include "fmt/chrono.h"
+#include "custome_time.h"
 
 using namespace date;
 using namespace std::chrono;
 
+auto lprintdate = [](auto const & d) {std::cout << d << std::endl; };
+
+void test_date_fmt() {
+    /*
+    system_clock::time_point now = system_clock::now();
+    // Format the date and time using fmt library
+    std::string formatted_datetime = fmt::format("{:%Y-%m-%d %H:%M:%S}", now);
+    std::cout << formatted_datetime << std::endl;
+    */
+    auto now = std::chrono::system_clock::now();
+    auto time = std::chrono::system_clock::to_time_t(now);
+    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()) % 1000;
+
+    std::tm* tm = std::localtime(&time);
+    std::string formatted_time = fmt::format("{:%Y-%m-%d %H:%M:%S}.{:03d}", *tm, ms.count());
+    std::cout << formatted_time << std::endl;
+}
+
+void sys_days_test() {
+    sys_days d1 = 2023_y / 7 / 20;
+    sys_days d2 = 29_d / oct / 2023;
+    sys_days d3 = oct / 29 / 2023;
+    auto today = floor<days>(system_clock::now());
+    lprintdate(d1);
+    lprintdate(d2);
+    lprintdate(d3);
+    lprintdate(today);
+}
+
+void year_month_day_test() {
+    year_month_day d1 = 2016_y / oct / 29;
+    year_month_day d2 = 29_d / oct / 2016;
+    year_month_day d3 = oct / 29 / 2016;
+    year_month_day today = floor<days>(system_clock::now());
+
+    lprintdate(d1);      // 2016-10-29
+    lprintdate(d2);      // 2016-10-29
+    lprintdate(d3);      // 2016-10-29
+    lprintdate(today);   // 2016-10-31
+}
+
+void ymw_to_ymd_test() {
+    auto wd1 = 2016_y / oct / mon[1];
+    auto wd2 = mon[1] / oct / 2016;
+    auto wd3 = oct / mon[1] / 2016;
+
+    lprintdate(wd1);     // 2016/Oct/Mon[1]
+    lprintdate(wd2);     // 2016/Oct/Mon[1]
+    lprintdate(wd3);     // 2016/Oct/Mon[1]
+
+    auto d1 = year_month_day{ wd1 };
+    auto d2 = year_month_day{ wd2 };
+    auto d3 = year_month_day{ wd2 };
+
+    lprintdate(d1);      // 2016-10-03
+    lprintdate(d2);      // 2016-10-03
+    lprintdate(d3);      // 2016-10-03
+}
+
 int main() {
     /*
-    auto today = floor<days>(system_clock::now());
-    std::cout << today << std::endl;
-
-    auto ymd = year_month_day(today);
-    std::cout << ymd << std::endl;
-
-    auto ymw = year_month_weekday(today);
-    std::cout << ymw << std::endl;
-
-    std::cout << weekday{July/4/2001} << '\n';
-    std::cout << system_clock::now() << '\n';
+    sys_days_test();
+    year_month_day_test();
+    ymw_to_ymd_test();
     */
-
-    // 获取当前系统时间
-    auto now = std::chrono::system_clock::now();
-
-    // 将时间转换为本地时间
-    //auto localTime = date::make_zoned(date::current_zone(), now);
-
-    // 格式化时间为字符串
-    auto timeStr = date::format("%Y-%m %H:%M:%S", now);
-    std::cout << timeStr << std::endl;
-
+    //test_date_fmt();
+    std::cout << TimeProc::get_readable_timestamp_with_ms() << std::endl;
+    std::cout << TimeProc::get_timestamp_in_nanoseconds() << std::endl;
     return 0;
 }

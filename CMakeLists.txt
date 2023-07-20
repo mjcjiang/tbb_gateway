@@ -13,6 +13,8 @@ INCLUDE_DIRECTORIES(deps/onetbb-1.0.0/include)
 INCLUDE_DIRECTORIES(deps/json-3.11.2/single_include)
 INCLUDE_DIRECTORIES(deps/spdlog-1.11.0/include)
 INCLUDE_DIRECTORIES(deps/date-3.0.1/include)
+INCLUDE_DIRECTORIES(deps/fmt-9.1.0/include)
+
 INCLUDE_DIRECTORIES(include)
 
 execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/deps/libzmq-4.3.4/lib lib)
@@ -22,6 +24,7 @@ execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/
 execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/deps/iceoryx-1.0.0/lib lib)
 execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/deps/onetbb-1.0.0/lib lib)
 execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/deps/date-3.0.1/lib lib)
+execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/deps/fmt-9.1.0/lib lib)
 
 file(COPY ${CMAKE_SOURCE_DIR}/deps/iceoryx-1.0.0/bin/iox-roudi DESTINATION apps)
 file(COPY ${CMAKE_SOURCE_DIR}/configs DESTINATION apps)
