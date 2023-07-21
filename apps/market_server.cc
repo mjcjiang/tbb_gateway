@@ -38,6 +38,7 @@ int main() {
     SPDLOG_INFO("Start login...");
     md_handler.ReqUserLogin(acct_info);
     sem.Wait();
+    md_handler.set_logging_status(true);
     SPDLOG_INFO("Finish login...");
 
     /*
