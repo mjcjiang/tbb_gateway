@@ -5,6 +5,9 @@
  * @date 2023-07-21
  */
 
+#ifndef MESSAGE_H
+#define MESSAGE_H
+
 #include <vector>
 #include <string>
 #include <map>
@@ -21,15 +24,6 @@ enum class MsgType : int {
     UnsubscribeRsp = 107,
     HeartBeat = 108,
     HeartBeatRsp = 109
-};
-
-using ErrorTable = std::map<int, std::string>;
-ErrorTable error_table = {
-    {0, "NO ERROR"},
-    {1, "Message Field Check Error."},
-    {2, "Invalid User"},
-    {3, "Wrong Password"},
-    {4, "Invalid Instrument {}"}
 };
 
 // the login message type, client send to server
@@ -74,3 +68,5 @@ struct ServerRsp {
         return j.dump();
     }
  };
+
+#endif //MESSAGE_H

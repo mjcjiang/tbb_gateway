@@ -5,6 +5,9 @@
  * @date 2023-07-19
  */
 
+#ifndef CUSTOME_TIME_H
+#define CUSTOME_TIME_H
+
 #include <ctime>
 #include <chrono>
 #include <string>
@@ -37,3 +40,5 @@ class TimeProc {
         return time_point_cast<milliseconds>(system_clock::now()).time_since_epoch().count();
     }
 };
+
+#endif //CUSTOME_TIME_H

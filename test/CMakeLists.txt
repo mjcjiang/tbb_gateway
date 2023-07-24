@@ -22,3 +22,12 @@ target_link_libraries(wu_client zmq)
 
 add_executable(task_generator task_generator.cc)
 target_link_libraries(task_generator zmq)
+
+add_executable(test_auto_binding test_auto_binding.cc)
+target_link_libraries(test_auto_binding zmq)
+
+add_executable(test_push_socket test_push_socket.cc)
+target_link_libraries(test_push_socket zmq)
+
+add_executable(test_pull_socket test_pull_socket.cc)
+target_link_libraries(test_pull_socket zmq)

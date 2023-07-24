@@ -5,6 +5,9 @@
  * @date 2023-07-20
  */
 
+#ifndef SEMAPHORE_H
+#define SEMAPHORE_H
+
 #include <mutex>
 #include <condition_variable>
 
@@ -30,3 +33,5 @@ class Semaphore {
     std::condition_variable condition_;
     int count_ = 0;
 };
+
+#endif //SEMAPHORE_H

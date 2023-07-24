@@ -48,6 +48,7 @@ int main (int argc, char *argv[])
         sprintf ((char *) message.data(), "%d", workload);
         sender.send(message);
     }
+    
     std::cout << "Total expected cost: " << total_msec << " msec" << std::endl;
     sleep (1);              //  Give 0MQ time to deliver
 

@@ -5,6 +5,6 @@
     "auth_code": "0000000000000000",
     "product_info": "Simnow",
     "app_id": "simnow_client_test",
-    "md_uri": "tcp://180.168.146.187:10131",
-    "td_uri": "tcp://180.168.146.187:10130"
+    "md_uri": "tcp://180.168.146.187:10211",
+    "td_uri": "tcp://180.168.146.187:10201"
 }

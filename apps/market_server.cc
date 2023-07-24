@@ -7,6 +7,7 @@
 #include "ctp_market.h"
 #include "ThostFtdcMdApi.h"
 #include "message.h"
+#include "error_table.h"
 
 void signalHandler(int signal) {
     std::cout << "Ctrl+C signal received. Exiting..." << std::endl;
@@ -41,23 +42,10 @@ int main() {
     md_handler.set_logging_status(true);
     SPDLOG_INFO("Finish login...");
 
-    /*
-    std::vector<std::string> insts = {"IO2308-C-4000"};
-    md_handler.SubscribeMarketData(insts);
-    sem.Wait();
-    SPDLOG_INFO("Subscribe finish...");
-    */
-    
-    /*
-    md_handler.UnSubscribeMarketData(insts);
-    sem.Wait();
-    SPDLOG_INFO("Unsubscribe finish...");
-    */
-    
+    //处理订阅者消息
     zmq::context_t context(1);
     zmq::socket_t socket(context, zmq::socket_type::rep);
-    socket.bind("tcp://*:5555");
-    
+    socket.bind("tcp://*:5566"); 
     while (true) {
         zmq::message_t request;
         socket.recv(request);
@@ -72,9 +60,11 @@ int main() {
             switch (msg_type) {
             case MsgType::Login: {
                 SPDLOG_INFO("Recv login request...");
-                std::string resp_msg = "Hello";
+
+                std::string resp_msg = ServerRsp::gen_response_msg(0, error_table[0], MsgType::LoginRsp);
                 zmq::message_t response(resp_msg.size());
                 memcpy(response.data(), resp_msg.data(), resp_msg.size());
+                
                 socket.send(response, zmq::send_flags::none);
             } break;
             case MsgType::Logout:
