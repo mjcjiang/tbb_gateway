@@ -23,6 +23,10 @@ class SubscriberManager {
  public:
     int add_user(const std::string& user_name);
     int delete_user(const std::string& user_name);
+
+    int process_subscribe(const std::string& user_name, const std::vector<std::string>& insts);
+    int process_unsubscribe(const std::string& user_name, const std::vector<std::string>& insts);
+    
     int get_push_address(const std::string& user_name, std::string& push_address);
  private:
     SocketTable sock_table_;
