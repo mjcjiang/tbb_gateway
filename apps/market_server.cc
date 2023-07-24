@@ -68,6 +68,7 @@ int main() {
         nlohmann::json j = nlohmann::json::parse(receivedMsg);
         if (j.contains("msg_type")) {
             MsgType msg_type = j.at("msg_type").get<MsgType>();
+            
             switch (msg_type) {
             case MsgType::Login: {
                 SPDLOG_INFO("Recv login request...");
@@ -87,6 +88,8 @@ int main() {
             default:
                 break;
             }
+        } else {
+            //deal with wrong type messages
         }
     }
     
