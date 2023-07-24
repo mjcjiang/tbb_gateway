@@ -11,13 +11,21 @@
 #include <string>
 #include <map>
 
-using ErrorTable = std::map<int, std::string>;
-ErrorTable error_table = {
-    {0, "NO ERROR"},
-    {1, "Message Field Check Error."},
-    {2, "Invalid User"},
-    {3, "Wrong Password"},
-    {4, "Invalid Instrument {}"}
+enum class ErrorCode {
+    NO_ERROR,
+    FIELD_ERROR,
+    INVALID_USER,
+    WRONG_PASSWD,
+    INVALID_INST,
+    ALREADY_LOGIN
 };
+
+using ErrorTable = std::map<ErrorCode, std::string>;
+ErrorTable error_table = {{ErrorCode::NO_ERROR, "NO ERROR"},
+                          {ErrorCode::FIELD_ERROR, "Message Field Check Error."},
+                          {ErrorCode::INVALID_USER, "Invalid User"},
+                          {ErrorCode::WRONG_PASSWD, "Wrong Password"},
+                          {ErrorCode::INVALID_INST, "Invalid Instrument {}"},
+                          {ErrorCode::ALREADY_LOGIN, "User Already Login"}};
 
 #endif //ERROR_TABLE_H

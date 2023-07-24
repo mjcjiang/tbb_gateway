@@ -28,16 +28,20 @@ class TimeProc {
         return fmt::format("{:%Y-%m-%d %H:%M:%S}.{:03d}", *tm, ms.count());
     }
 
-    static inline int64_t get_timestamp_in_nanoseconds() {
+    static inline uint64_t get_timestamp_in_nanoseconds() {
         return time_point_cast<nanoseconds>(system_clock::now()).time_since_epoch().count();
     }
 
-    static inline int64_t get_timestamp_in_microseconds() {
+    static inline uint64_t get_timestamp_in_microseconds() {
         return time_point_cast<microseconds>(system_clock::now()).time_since_epoch().count();
     }
 
-    static inline int64_t get_timestamp_in_milliseconds() {
+    static inline uint64_t get_timestamp_in_milliseconds() {
         return time_point_cast<milliseconds>(system_clock::now()).time_since_epoch().count();
+    }
+
+    static inline uint64_t get_timestamp_in_seconds() {
+        return time_point_cast<seconds>(system_clock::now()).time_since_epoch().count();
     }
 };
 

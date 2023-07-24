@@ -12,6 +12,7 @@
 #include <string>
 #include <map>
 #include <nlohmann/json.hpp>
+#include "error_table.h"
 
 enum class MsgType : int {
     Login = 100,
@@ -60,7 +61,7 @@ struct ServerRsp {
     int error_code;
     std::string error_msg;
 
-    static std::string gen_response_msg(int code, const std::string& msg, MsgType type) {
+    static std::string gen_response_msg(ErrorCode code, const std::string& msg, MsgType type) {
         nlohmann::json j;
         j["msg_type"] = type;
         j["error_code"] = code;

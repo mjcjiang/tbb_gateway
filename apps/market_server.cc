@@ -61,7 +61,7 @@ int main() {
             case MsgType::Login: {
                 SPDLOG_INFO("Recv login request...");
 
-                std::string resp_msg = ServerRsp::gen_response_msg(0, error_table[0], MsgType::LoginRsp);
+                std::string resp_msg = ServerRsp::gen_response_msg(ErrorCode::NO_ERROR, error_table[ErrorCode::NO_ERROR], MsgType::LoginRsp);
                 zmq::message_t response(resp_msg.size());
                 memcpy(response.data(), resp_msg.data(), resp_msg.size());
                 
