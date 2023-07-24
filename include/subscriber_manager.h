@@ -13,7 +13,7 @@
 #include <memory>
 #include "custome_socket.h"
 #include "error_table.h"
-#include "oneapi/tbb/concurrent_map.h"
+#include "oneapi/tbb/concurrent_hash_map.h"
 #include "oneapi/tbb/concurrent_vector.h"
 
 using namespace oneapi::tbb;
@@ -34,13 +34,14 @@ private:
     uint64_t last_msg_stamp_;
 };
 
-using SocketControlTable = concurrent_map<std::string, SockControlBlock>;
-using SubscribeTable = concurrent_map<std::string, concurrent_vector<std::string>>;
+using NameString = std::basic_string<char, std::char_traits<char>, oneapi::tbb::tbb_allocator<char>>;
+using SocketControlTable = concurrent_hash_map<NameString, SockControlBlock>;
+using SubscribeTable = concurrent_hash_map<NameString, concurrent_vector<std::string>>;
 
 class SubscriberManager {
 public:
     ErrorCode add_user(const std::string& user_name);
-    int delete_user(const std::string& user_name);
+    ErrorCode delete_user(const std::string& user_name);
 
     int process_subscribe(const std::string& user_name, const std::vector<std::string>& insts);
     int process_unsubscribe(const std::string& user_name, const std::vector<std::string>& insts);

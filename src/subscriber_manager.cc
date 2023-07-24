@@ -26,18 +26,30 @@ std::string SockControlBlock::get_bind_addr() {
 }
 
 ErrorCode SubscriberManager::add_user(const std::string& user_name) {
-    auto it = sock_table_.find(user_name);
-    if (it != sock_table_.end()) {        
+    SocketControlTable::accessor a;
+    bool res = sock_table_.find(a, user_name);
+    if (res) {
+        //already have the key in hash table
         return ErrorCode::ALREADY_LOGIN;
     } else {
-        SockControlBlock ctl_block;
-        sock_table_.insert({user_name, ctl_block});
+        sock_table_.insert(user_name, SockControlBlock());
+        bool res = sock_table_[user_name].bind();
+        if (!res) {
+            SPDLOG_INFO("Socket bind failed... Delete control block");
+            sock_table_.erase(user_name);
+        }
     }
     return ErrorCode::NO_ERROR;
 }
 
-int SubscriberManager::delete_user(const std::string& user_name) {
-    return 0;
+ErrorCode SubscriberManager::delete_user(const std::string& user_name) {
+    auto it = sock_table_.find(user_name);
+    if (it != sock_table_.end()) {   
+        sock_table_.erase(user_name);
+    } else {
+        return ErrorCode::INVALID_USER;
+    }
+    return ErrorCode::NO_ERROR;
 }
 
 int SubscriberManager::get_push_address(const std::string& user_name, std::string& push_address) {
