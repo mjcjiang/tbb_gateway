@@ -32,6 +32,7 @@ public:
 private:
     std::shared_ptr<CustomPushSocket> push_sock_;
     uint64_t last_msg_stamp_;
+    bool is_binded = false;
 };
 
 //通信控制表
@@ -45,6 +46,8 @@ public:
     ErrorCode add_user(const std::string& user_name);
     //处理用户退出（主动或被动）
     ErrorCode delete_user(const std::string& user_name);
+    //获取指定用户的通信控制模块
+    SockControlBlock* get_control_block(const std::string& user_name);
     //处理用户行情订阅消息
     ErrorCode process_subscribe(const std::string& user_name, const std::vector<std::string>& insts);
     //处理用户行情退定消息

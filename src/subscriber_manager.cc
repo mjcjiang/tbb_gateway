@@ -14,7 +14,12 @@ uint64_t SockControlBlock::get_msg_stamp() {
 }
 
 bool SockControlBlock::bind() {
-    return push_sock_->bind();
+    if (!is_binded) {
+        //如果sockets还没有绑定，先绑定
+        is_binded = true;
+        return push_sock_->bind();
+    }
+    return true;
 }
 
 bool SockControlBlock::send(const std::string &message) {
@@ -80,6 +85,16 @@ ErrorCode SubscriberManager::get_sock_address(const std::string& user_name, std:
     }
     
     return ErrorCode::NO_ERROR;
+}
+
+SockControlBlock* SubscriberManager::get_control_block(const std::string& user_name) {
+    SocketControlTable::accessor a;
+    bool isFound = sock_table_.find(a, user_name);
+
+    if (isFound) {
+        return &a->second;
+    }    
+    return nullptr;
 }
  
 ErrorCode SubscriberManager::process_subscribe(const std::string &user_name, const std::vector<std::string> &insts) {
