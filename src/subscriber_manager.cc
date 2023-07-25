@@ -1,5 +1,5 @@
 #include "subscriber_manager.h"
-#include "error_table.h"
+#include "custome_time.h"
 
 SockControlBlock::SockControlBlock()
     :push_sock_(std::make_shared<CustomPushSocket>()) {
@@ -46,7 +46,7 @@ ErrorCode SubscriberManager::add_user(const std::string& user_name) {
             }
 
             //设置保活时间戳
-            //a->second.set_msg_stamp(TimeProc::get_timestamp_in_seconds());
+            a->second.set_msg_stamp(TimeProc::get_timestamp_in_seconds());
         }
     }
     
@@ -91,4 +91,3 @@ ErrorCode SubscriberManager::process_unsubscribe(const std::string& user_name, c
     //TODO: 处理退订消息之前，判断用户是否已经登陆
     return ErrorCode::NO_ERROR;
 }
-    

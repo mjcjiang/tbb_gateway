@@ -1,22 +1,11 @@
 #include <iostream>
-#include "date/date.h"
-#include <chrono>
-#include "fmt/core.h"
-#include "fmt/chrono.h"
+#include <string>
 #include "custome_time.h"
 
-using namespace date;
-using namespace std::chrono;
-
+/*
 auto lprintdate = [](auto const & d) {std::cout << d << std::endl; };
 
 void test_date_fmt() {
-    /*
-    system_clock::time_point now = system_clock::now();
-    // Format the date and time using fmt library
-    std::string formatted_datetime = fmt::format("{:%Y-%m-%d %H:%M:%S}", now);
-    std::cout << formatted_datetime << std::endl;
-    */
     auto now = std::chrono::system_clock::now();
     auto time = std::chrono::system_clock::to_time_t(now);
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()) % 1000;
@@ -66,6 +55,7 @@ void ymw_to_ymd_test() {
     lprintdate(d2);      // 2016-10-03
     lprintdate(d3);      // 2016-10-03
 }
+*/
 
 int main() {
     /*
@@ -74,9 +64,14 @@ int main() {
     ymw_to_ymd_test();
     */
     //test_date_fmt();
-    std::cout << TimeProc::get_readable_timestamp_with_ms() << std::endl;
-    std::cout << TimeProc::get_timestamp_in_nanoseconds() << std::endl;
+    std::string stamp;
+    TimeProc::get_readable_timestamp_with_ms(stamp);
+    std::cout << stamp << std::endl;
 
+    std::cout << TimeProc::get_timestamp_in_nanoseconds() << std::endl;
+    std::cout << TimeProc::get_timestamp_in_seconds() << std::endl;
+
+    /*
     // 获取当前时间的纳秒级别时间戳
     auto ns_now = std::chrono::time_point_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now()).time_since_epoch().count();
 
@@ -89,5 +84,6 @@ int main() {
     std::cout << "Nanoseconds: " << ns_now << std::endl;
     std::cout << "Microseconds: " << us_now << std::endl;
     std::cout << "Milliseconds: " << ms_now << std::endl;
+    */
     return 0;
 }
