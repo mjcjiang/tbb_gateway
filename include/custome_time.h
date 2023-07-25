@@ -12,8 +12,8 @@
 #include <chrono>
 #include <string>
 #include <cstdint>
+#include <chrono>
 #include "fmt/core.h"
-#include "fmt/chrono.h"
 
 using namespace std::chrono;
 

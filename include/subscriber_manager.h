@@ -18,7 +18,7 @@
 
 using namespace oneapi::tbb;
 
-//socket control block
+//zeromq socket通信控制类
 class SockControlBlock {
 public:
     SockControlBlock();
@@ -34,19 +34,23 @@ private:
     uint64_t last_msg_stamp_;
 };
 
-using NameString = std::basic_string<char, std::char_traits<char>, oneapi::tbb::tbb_allocator<char>>;
-using SocketControlTable = concurrent_hash_map<NameString, SockControlBlock>;
-using SubscribeTable = concurrent_hash_map<NameString, concurrent_vector<std::string>>;
+//通信控制表
+using SocketControlTable = concurrent_hash_map<std::string, SockControlBlock>;
+//产品订阅管理表
+using SubscribeTable = concurrent_hash_map<std::string, concurrent_vector<std::string>>;
 
 class SubscriberManager {
 public:
+    //处理新用户登陆
     ErrorCode add_user(const std::string& user_name);
+    //处理用户退出（主动或被动）
     ErrorCode delete_user(const std::string& user_name);
-
-    int process_subscribe(const std::string& user_name, const std::vector<std::string>& insts);
-    int process_unsubscribe(const std::string& user_name, const std::vector<std::string>& insts);
-    
-    int get_push_address(const std::string& user_name, std::string& push_address);
+    //处理用户行情订阅消息
+    ErrorCode process_subscribe(const std::string& user_name, const std::vector<std::string>& insts);
+    //处理用户行情退定消息
+    ErrorCode process_unsubscribe(const std::string& user_name, const std::vector<std::string>& insts);
+    //获取zeromq push socket所绑定的地址信息
+    ErrorCode get_sock_address(const std::string& user_name, std::string& push_address);
 private:
     SocketControlTable sock_table_;
     SubscribeTable subs_table_;

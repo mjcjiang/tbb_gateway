@@ -17,15 +17,20 @@ enum class ErrorCode {
     INVALID_USER,
     WRONG_PASSWD,
     INVALID_INST,
-    ALREADY_LOGIN
+    ALREADY_LOGIN,
+    BINDING_FAIL,
+    ERASE_FAIL
 };
 
 using ErrorTable = std::map<ErrorCode, std::string>;
-ErrorTable error_table = {{ErrorCode::NO_ERROR, "NO ERROR"},
-                          {ErrorCode::FIELD_ERROR, "Message Field Check Error."},
-                          {ErrorCode::INVALID_USER, "Invalid User"},
-                          {ErrorCode::WRONG_PASSWD, "Wrong Password"},
-                          {ErrorCode::INVALID_INST, "Invalid Instrument {}"},
-                          {ErrorCode::ALREADY_LOGIN, "User Already Login"}};
+ErrorTable error_table = {
+    {ErrorCode::NO_ERROR, "NO ERROR"},
+    {ErrorCode::FIELD_ERROR, "Message Field Check Error."},
+    {ErrorCode::INVALID_USER, "Invalid User"},
+    {ErrorCode::WRONG_PASSWD, "Wrong Password"},
+    {ErrorCode::INVALID_INST, "Invalid Instrument {}"},
+    {ErrorCode::ALREADY_LOGIN, "User Already Login"},
+    {ErrorCode::BINDING_FAIL, "Failed Binding Socket"},
+    {ErrorCode::ERASE_FAIL, "Failed To Erase"}};
 
 #endif //ERROR_TABLE_H
