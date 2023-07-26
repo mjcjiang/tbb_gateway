@@ -1,6 +1,7 @@
 #include "subscriber_manager.h"
 #include "custome_time.h"
 #include <algorithm>
+#include <iostream>
 
 SockControlBlock::SockControlBlock()
     :push_sock_(std::make_shared<CustomPushSocket>()) {
@@ -124,6 +125,7 @@ ErrorCode SubscriberManager::process_subscribe(const std::string &user_name, con
         }
     } else {
         //用户尚未登陆
+        SPDLOG_WARN("user {} have not logged in...", user_name);
         return ErrorCode::INVALID_USER;
     }
 
@@ -153,4 +155,17 @@ ErrorCode SubscriberManager::process_unsubscribe(const std::string& user_name, c
         }
     }
     return ErrorCode::NO_ERROR;
+}
+
+void SubscriberManager::tell_subscriber_info() {
+    std::cout << "-----------subscribers infomation of mamager----------------\n"; 
+    for(const auto& subs_it : subs_table_) {
+        std::cout << "Inst: " << subs_it.first << std::endl;
+        std::cout << "Subscriber: ";
+        for (const auto& users_it: subs_it.second) {
+            std::cout << users_it.first << " ";
+        }
+        std::cout << std::endl;
+    }
+    std::cout << "------------------------------------------------------------\n"; 
 }

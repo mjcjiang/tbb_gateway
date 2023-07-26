@@ -54,6 +54,8 @@ public:
     ErrorCode process_subscribe(const std::string& user_name, const std::vector<std::string>& insts);
     //处理用户行情退定消息
     ErrorCode process_unsubscribe(const std::string& user_name, const std::vector<std::string>& insts);
+    //辅助函数：查看当前行情订阅情况
+    void tell_subscriber_info();
     //获取zeromq push socket所绑定的地址信息
     ErrorCode get_sock_address(const std::string& user_name, std::string& push_address);
 private:
