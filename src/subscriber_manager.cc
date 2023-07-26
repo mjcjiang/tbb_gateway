@@ -56,7 +56,6 @@ ErrorCode SubscriberManager::add_user(const std::string& user_name) {
             a->second.set_msg_stamp(TimeProc::get_timestamp_in_seconds());
         }
     }
-    
     return ErrorCode::NO_ERROR;
 }
 
@@ -178,4 +177,15 @@ void SubscriberManager::tell_subscriber_info() {
         std::cout << std::endl;
     }
     std::cout << "------------------------------------------------------------\n"; 
+}
+
+ErrorCode SubscriberManager::set_live_stamp(const std::string &user_name) {
+    SocketControlTable::accessor a;
+    bool isLogin = sock_table_.find(a, user_name);
+    if (isLogin) {
+        a->second.set_msg_stamp(TimeProc::get_timestamp_in_seconds());
+    } else {
+        return ErrorCode::INVALID_USER;
+    }
+    return ErrorCode::NO_ERROR;
 }

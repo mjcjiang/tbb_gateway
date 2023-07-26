@@ -154,56 +154,27 @@ struct UnsusbcribeRspMsg {
 
 //心跳消息
 struct HeartbeatMsg {
-  int64_t stamp;
-
-  static std::string gen_heartbeat_msg() {
-    nlohmann::json j;
-    j["msg_type"] = MsgType::HeartBeat;
-    j["stamp"] = TimeProc::get_timestamp_in_seconds();
-    return j.dump();
-  }
+    std::string user_name;
+    static std::string gen_heartbeat_msg(const std::string& user_name) {
+        nlohmann::json j;
+        j["msg_type"] = MsgType::HeartBeat;
+        j["user_name"] = user_name;
+        return j.dump();
+    }
 };
 
 //心跳响应消息
 struct HeartbeatRspMsg {
-    int64_t stamp;
-
-    static std::string gen_heartbeat_msg() {
-        nlohmann::json j;
-        j["msg_type"] = MsgType::HeartBeatRsp;
-        j["stamp"] = TimeProc::get_timestamp_in_seconds();
-        return j.dump();
-    }
-};
-
-
-struct SubsMsg {
-    std::string user_name;
-    std::vector<std::string> instruments;
-
-    static std::string gen_subscribe_msg(const std::string& user_name, const std::vector<std::string>& insts, MsgType type) {
-        nlohmann::json j;
-        j["msg_type"] = type;
-        j["user_name"] = user_name;
-        j["instruments"] = nlohmann::json::array();
-        for(auto& inst : insts) {
-            j["instruments"].push_back(inst);
-        }
-        return j.dump();
-    }
-};
-
-struct ServerRsp {
-    int error_code;
+    ErrorCode error_code;
     std::string error_msg;
 
-    static std::string gen_response_msg(ErrorCode code, const std::string& msg, MsgType type) {
+    static std::string gen_heartbeat_rsp_msg(ErrorCode error_code, const std::string& error_msg) {
         nlohmann::json j;
-        j["msg_type"] = type;
-        j["error_code"] = code;
-        j["error_msg"] = msg;
+        j["msg_type"] = MsgType::HeartBeatRsp;
+        j["error_code"] = error_code;
+        j["error_msg"] = error_msg;
         return j.dump();
     }
- };
+};
 
 #endif //MESSAGE_H

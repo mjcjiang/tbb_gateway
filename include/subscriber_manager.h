@@ -58,6 +58,8 @@ public:
     void tell_subscriber_info();
     //获取zeromq push socket所绑定的地址信息
     ErrorCode get_sock_address(const std::string& user_name, std::string& push_address);
+    //设置指定用户的保活时间戳
+    ErrorCode set_live_stamp(const std::string& user_name);
 private:
     SocketControlTable sock_table_;
     SubscribeTable subs_table_;
