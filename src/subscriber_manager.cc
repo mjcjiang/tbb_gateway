@@ -1,5 +1,6 @@
 #include "subscriber_manager.h"
 #include "custome_time.h"
+#include <algorithm>
 
 SockControlBlock::SockControlBlock()
     :push_sock_(std::make_shared<CustomPushSocket>()) {
@@ -98,11 +99,58 @@ SockControlBlock* SubscriberManager::get_control_block(const std::string& user_n
 }
  
 ErrorCode SubscriberManager::process_subscribe(const std::string &user_name, const std::vector<std::string> &insts) {
-    //TODO: 处理订阅消息之前，判断用户是否已经登陆
+    SocketControlTable::accessor a;
+    bool isLogin = sock_table_.find(a, user_name);
+    if (isLogin) {
+        //用户已经登陆
+        for (auto &inst : insts) {
+            SubscribeTable::accessor b;
+            bool isSubscribed = subs_table_.find(b, inst);
+            if (isSubscribed) {
+                //已经存在该产品行情的用户订阅
+                UserList::accessor u;
+                bool isBooked = b->second.find(u, user_name);
+                if (!isBooked) {
+                    b->second.insert({user_name, 1});
+                }
+            } else {
+                //不存在该产品行情的用户订阅,添加新的用户订阅
+                const auto itemIsNew = subs_table_.insert(b, inst);
+                if (itemIsNew) {
+                    b->second = UserList();
+                    b->second.insert({user_name, 1});
+                }
+            }
+        }
+    } else {
+        //用户尚未登陆
+        return ErrorCode::INVALID_USER;
+    }
+
     return ErrorCode::NO_ERROR;
 }
 
 ErrorCode SubscriberManager::process_unsubscribe(const std::string& user_name, const std::vector<std::string>& insts) {
-    //TODO: 处理退订消息之前，判断用户是否已经登陆
+    SocketControlTable::accessor a;
+    bool isLogin = sock_table_.find(a, user_name);
+    if (isLogin) {
+        //用户已经登陆
+        for (auto &inst : insts) {
+            SubscribeTable::accessor b;
+            bool isSubscribed = subs_table_.find(b, inst);
+            if (isSubscribed) {
+                //该产品存在订阅用户
+                UserList::accessor u;
+                bool isBooked = b->second.find(u, user_name);
+                if (isBooked) {
+                    //确认该用户已经订阅了该产品, 删除订阅记录
+                    bool eraseRes = b->second.erase(u);
+                    if (!eraseRes) {
+                      return ErrorCode::ERASE_FAIL;
+                    }
+                }
+            }
+        }
+    }
     return ErrorCode::NO_ERROR;
 }

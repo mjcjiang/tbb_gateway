@@ -35,10 +35,12 @@ private:
     bool is_binded = false;
 };
 
-//通信控制表
+//通信控制表,key是用户名,value是对该用户的通信控制模块
 using SocketControlTable = concurrent_hash_map<std::string, SockControlBlock>;
-//产品订阅管理表
-using SubscribeTable = concurrent_hash_map<std::string, concurrent_vector<std::string>>;
+//订阅用户列表
+using UserList = concurrent_hash_map<std::string, int>;
+//产品订阅管理表, key是产品名称，value是订阅用户列表
+using SubscribeTable = concurrent_hash_map<std::string, UserList>;
 
 class SubscriberManager {
 public:
