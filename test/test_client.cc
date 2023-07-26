@@ -12,7 +12,7 @@ int main() {
     socket.connect("tcp://localhost:5566");
 
     while (1) {
-        std::string login_msg = LogMsg::gen_login_msg("hjiang", "never_stop_learning", MsgType::Login);
+        std::string login_msg = LoginMsg::gen_login_msg("hjiang", "never_stop_learning");
         zmq::message_t login_request(login_msg.size());
         memcpy(login_request.data(), login_msg.data(), login_msg.size());
         SPDLOG_INFO("Will send request: {}", login_msg);
@@ -42,7 +42,6 @@ int main() {
                 break;
             }
         }
-
         std::this_thread::sleep_for(std::chrono::seconds(5));
     }
 }

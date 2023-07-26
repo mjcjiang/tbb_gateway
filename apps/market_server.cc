@@ -8,6 +8,7 @@
 #include "ThostFtdcMdApi.h"
 #include "message.h"
 #include "error_table.h"
+#include "subscriber_manager.h"
 
 void signalHandler(int signal) {
     std::cout << "Ctrl+C signal received. Exiting..." << std::endl;
@@ -42,36 +43,75 @@ int main() {
     md_handler.set_logging_status(true);
     SPDLOG_INFO("Finish login...");
 
-    //处理订阅者消息
+    //初始化订阅者管理器
+    SubscriberManager subs_manager;
+    
+    //处理客户端消息
     zmq::context_t context(1);
     zmq::socket_t socket(context, zmq::socket_type::rep);
     socket.bind("tcp://*:5566"); 
     while (true) {
         zmq::message_t request;
         socket.recv(request);
-
         std::string receivedMsg(static_cast<char*>(request.data()), request.size());
-        std::cout << "Received request: " << receivedMsg << std::endl;
-
         nlohmann::json j = nlohmann::json::parse(receivedMsg);
+        
         if (j.contains("msg_type")) {
             MsgType msg_type = j.at("msg_type").get<MsgType>();
             
             switch (msg_type) {
-            case MsgType::Login: {
-                SPDLOG_INFO("Recv login request...");
-
-                std::string resp_msg = ServerRsp::gen_response_msg(ErrorCode::NO_ERROR, error_table[ErrorCode::NO_ERROR], MsgType::LoginRsp);
-                zmq::message_t response(resp_msg.size());
-                memcpy(response.data(), resp_msg.data(), resp_msg.size());
-                
-                socket.send(response, zmq::send_flags::none);
-            } break;
+            case MsgType::Login:
             case MsgType::Logout:
-                break;
+                {
+                    //登陆和登出消息处理
+                    auto user_name = j.at("user_name").get<std::string>();
+                    auto user_password = j.at("user_passwd").get<std::string>();
+
+                    //TODO: 账号合法性校验
+
+                    ErrorCode code = ErrorCode::NO_ERROR;
+                    std::string rsp_str;
+                    if (msg_type == MsgType::Login) {
+                        code = subs_manager.add_user(user_name);
+                        std::string push_address;
+                        subs_manager.get_sock_address(user_name, push_address);
+                        rsp_str = LoginRspMsg::gen_login_rsp_msg(code, error_table[code], push_address);
+                    } else {
+                        code = subs_manager.delete_user(user_name);
+                        rsp_str = LogoutRspMsg::gen_logout_rsp_msg(code, error_table[code]);
+                    }
+
+                    zmq::message_t rsp_msg(rsp_str.size());
+                    memcpy(rsp_msg.data(), rsp_str.data(), rsp_str.size());
+                    socket.send(rsp_msg, zmq::send_flags::none);          
+            } break;
             case MsgType::Subscribe:
-                break;
             case MsgType::Unsubscribe:
+                {
+                    //订阅和取消订阅消息处理
+                    auto user_name = j.at("user_name").get<std::string>();
+                    auto user_password = j.at("user_passwd").get<std::string>();
+                    std::vector<std::string> insts;
+                    for(auto& inst : j.at("insts")) {
+                        insts.push_back(inst.get<std::string>());
+                    }    
+                    
+                    //TODO: 账号合法性校验
+
+                    ErrorCode code = ErrorCode::NO_ERROR;
+                    std::string rsp_str;
+                    if (msg_type == MsgType::Subscribe) {
+                        code = subs_manager.process_subscribe(user_name, insts);
+                        rsp_str = SusbcribeRspMsg::gen_subscribe_rsp_msg(code, error_table[code]);
+                    } else {
+                        code = subs_manager.process_unsubscribe(user_name, insts);
+                        rsp_str = UnsusbcribeRspMsg::gen_unsubscribe_rsp_msg(code, error_table[code]);
+                    }
+
+                    zmq::message_t rsp_msg(rsp_str.size());
+                    memcpy(rsp_msg.data(), rsp_str.data(), rsp_str.size());
+                    socket.send(rsp_msg, zmq::send_flags::none);
+                }
                 break;
             case MsgType::HeartBeat:
                 break;

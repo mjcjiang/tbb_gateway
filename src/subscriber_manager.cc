@@ -63,11 +63,21 @@ ErrorCode SubscriberManager::add_user(const std::string& user_name) {
 ErrorCode SubscriberManager::delete_user(const std::string& user_name) {
     SocketControlTable::accessor a;
     bool isFound = sock_table_.find(a, user_name);
-
     if (isFound) {
+        //删除通信控制表中相应用户的信息
         bool eraseRes = sock_table_.erase(a);
-        if (!eraseRes) {
+        if (!eraseRes)
             return ErrorCode::ERASE_FAIL;
+
+        //如果订阅者列表中有该用户信息，也删除
+        for(auto& users_it: subs_table_) {
+            UserList::accessor u;
+            bool isSubscribed = users_it.second.find(u, user_name);
+            if (isSubscribed) {
+                bool eraseRes = users_it.second.erase(u);
+                if (!eraseRes)
+                    return ErrorCode::ERASE_FAIL;
+            }
         }
     } else {
         return ErrorCode::INVALID_USER;
