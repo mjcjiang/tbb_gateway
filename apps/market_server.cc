@@ -1,5 +1,7 @@
 #include <string>
 #include <csignal>
+#include <thread>
+#include <chrono>
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
 #include "zmq.hpp"
@@ -15,6 +17,12 @@ void signalHandler(int signal) {
     exit(signal);
 }
 
+void heartbeat_check(SubscriberManager *pManager) {
+    while (true) {
+        
+    }
+}
+
 int main() {
     std::signal(SIGINT, signalHandler);
     
@@ -23,11 +31,17 @@ int main() {
     if (res) {
         SPDLOG_ERROR("Failed to fetch account.json");
     }
+
+    //初始化订阅者管理器
+    SubscriberManager subs_manager;
+
+    //启动心跳检查线程
+    std::thread hb_check(heartbeat_check, &subs_manager);
     
     Semaphore &sem = Semaphore::GetInstance();
     //建立和交易所行情前置机的联系
     CThostFtdcMdApi *pUserMdApi = CThostFtdcMdApi::CreateFtdcMdApi("", false, false);
-    MdHandler md_handler(pUserMdApi);
+    MdHandler md_handler(pUserMdApi, &subs_manager);
     pUserMdApi->RegisterSpi(&md_handler);
     pUserMdApi->RegisterFront(const_cast<char *>(acct_info.md_uri.c_str()));
     pUserMdApi->Init();
@@ -42,10 +56,7 @@ int main() {
     sem.Wait();
     md_handler.set_logging_status(true);
     SPDLOG_INFO("Finish login...");
-
-    //初始化订阅者管理器
-    SubscriberManager subs_manager;
-    
+   
     //处理客户端消息
     zmq::context_t context(1);
     zmq::socket_t socket(context, zmq::socket_type::rep);
@@ -58,7 +69,6 @@ int main() {
         
         if (j.contains("msg_type")) {
             MsgType msg_type = j.at("msg_type").get<MsgType>();
-
             ErrorCode code = ErrorCode::NO_ERROR;
             std::string rsp_str;
             
@@ -136,6 +146,7 @@ int main() {
             //deal with wrong type messages
         }
     }
-    
+
+    hb_check.join();
     return 0;
 }

@@ -22,6 +22,7 @@
 #include "spdlog/spdlog.h"
 #include "config_fetch.h"
 #include "ThostFtdcMdApi.h"
+#include "subscriber_manager.h"
 
 constexpr int INSTS_BUFF_SIZE = 60000;           //限制最多发送产品个数
 constexpr int INSTS_SEND_CHUNCK_SIZE = 500;      //限制最大的订阅单位
@@ -29,7 +30,7 @@ constexpr int INSTS_SEND_CHUNCK_SIZE = 500;      //限制最大的订阅单位
 class MdHandler : public CThostFtdcMdSpi {
 public:
     //constructor, need a valid pointer to CThostFtdcMdApi
-    MdHandler(CThostFtdcMdApi *pMdApi) : m_Api(pMdApi) {}
+    MdHandler(CThostFtdcMdApi *pMdApi, SubscriberManager *pSubsMng) : m_Api(pMdApi), m_Subsmng(pSubsMng) {}
 
     ~MdHandler() {}
 
@@ -79,6 +80,7 @@ public:
     void send_signal();
 private:
     CThostFtdcMdApi *m_Api = nullptr;
+    SubscriberManager *m_Subsmng = nullptr;
     bool isFrontConnected_ = false;
     bool isLogged_ = false;
     std::mutex mutex_;
