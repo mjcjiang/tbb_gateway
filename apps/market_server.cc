@@ -19,11 +19,17 @@ void signalHandler(int signal) {
 
 void heartbeat_check(SubscriberManager *pManager) {
     while (true) {
-        //pManager->tell_subscriber_info();
+        pManager->tell_subscriber_info();
         pManager->check_user_alive();
-        //pManager->tell_subscriber_info();
+        pManager->tell_subscriber_info();
         std::this_thread::sleep_for(std::chrono::seconds(CLIENT_CHECK_INTERVAL));
     }
+}
+
+void send_response(zmq::socket_t& socket, const std::string &msg) {
+    zmq::message_t rsp_msg(msg.size());
+    memcpy(rsp_msg.data(), msg.data(), msg.size());
+    socket.send(rsp_msg, zmq::send_flags::none);
 }
 
 int main() {
@@ -77,73 +83,85 @@ int main() {
             
             switch (msg_type) {
             case MsgType::Login:
-            case MsgType::Logout:
                 {
-                    //登陆和登出消息处理
-                    auto user_name = j.at("user_name").get<std::string>();
-                    auto user_password = j.at("user_passwd").get<std::string>();
-
-                    subs_manager.set_live_stamp(user_name);
+                    LoginMsg login_msg;
+                    std::string push_addr = "";
                     
-                    //TODO: 账号合法性校验
-                    if (msg_type == MsgType::Login) {
-                        code = subs_manager.add_user(user_name);
+                    bool parse_res = LoginMsg::from_message(receivedMsg, login_msg);
+                    if (parse_res) {
+                        subs_manager.set_live_stamp(login_msg.user_name);
+                        code = subs_manager.add_user(login_msg.user_name);
                         if (code == ErrorCode::NO_ERROR) {
-                            //成功添加用户
-                            std::string push_address;
-                            subs_manager.get_sock_address(user_name, push_address);
-                            rsp_str = LoginRspMsg::gen_login_rsp_msg(code, error_table[code], push_address);
-                        } else {
-                            //添加用户失败
-                            rsp_str = LoginRspMsg::gen_login_rsp_msg(code, error_table[code], "");
+                            subs_manager.get_sock_address(login_msg.user_name, push_addr);
                         }
                     } else {
-                        code = subs_manager.delete_user(user_name);
-                        rsp_str = LogoutRspMsg::gen_logout_rsp_msg(code, error_table[code]);
+                        code = ErrorCode::PARSE_FAIL;
                     }
 
-                    zmq::message_t rsp_msg(rsp_str.size());
-                    memcpy(rsp_msg.data(), rsp_str.data(), rsp_str.size());
-                    socket.send(rsp_msg, zmq::send_flags::none);          
-            } break;
+                    rsp_str = LoginRspMsg::gen_login_rsp_msg(code, error_table[code], push_addr);
+                    send_response(socket, rsp_str);
+                }
+                break;
+            case MsgType::Logout:
+                {
+                    LogoutMsg logout_msg;
+                    bool parse_res = LogoutMsg::from_message(receivedMsg, logout_msg);
+                    if (parse_res) {
+                        subs_manager.set_live_stamp(logout_msg.user_name);
+                        code = subs_manager.delete_user(logout_msg.user_name);
+                    } else {
+                        code = ErrorCode::PARSE_FAIL;
+                    }
+
+                    rsp_str = LogoutRspMsg::gen_logout_rsp_msg(code, error_table[code]);
+                    send_response(socket, rsp_str);
+                }
+                break;
             case MsgType::Subscribe:
+                {
+                    SusbcribeMsg subs_msg;
+                 
+                    bool parse_res = SusbcribeMsg::from_message(receivedMsg, subs_msg);
+                    if (parse_res) {
+                        subs_manager.set_live_stamp(subs_msg.user_name);
+                        code = subs_manager.process_subscribe(subs_msg.user_name, subs_msg.insts);
+                    } else {
+                        code = ErrorCode::PARSE_FAIL;
+                    }
+
+                    rsp_str = SusbcribeRspMsg::gen_subscribe_rsp_msg(code, error_table[code]);
+                    send_response(socket, rsp_str);
+                }
+                break;
             case MsgType::Unsubscribe:
                 {
-                    //订阅和取消订阅消息处理
-                    auto user_name = j.at("user_name").get<std::string>();
-                    auto user_password = j.at("user_passwd").get<std::string>();
-
-                    std::vector<std::string> insts;
-                    for(auto& inst : j.at("insts")) {
-                        insts.push_back(inst.get<std::string>());
-                    }    
-
-                    subs_manager.set_live_stamp(user_name);
-                    
-                    //TODO: 账号合法性校验
-                    if (msg_type == MsgType::Subscribe) {
-                        code = subs_manager.process_subscribe(user_name, insts);
-                        rsp_str = SusbcribeRspMsg::gen_subscribe_rsp_msg(code, error_table[code]);
+                    UnsusbcribeMsg unsubs_msg;
+                   
+                    bool parse_res = UnsusbcribeMsg::from_message(receivedMsg, unsubs_msg);
+                    if (parse_res) {
+                        subs_manager.set_live_stamp(unsubs_msg.user_name);
+                        code = subs_manager.process_unsubscribe(unsubs_msg.user_name, unsubs_msg.insts);
                     } else {
-                        code = subs_manager.process_unsubscribe(user_name, insts);
-                        rsp_str = UnsusbcribeRspMsg::gen_unsubscribe_rsp_msg(code, error_table[code]);
+                        code = ErrorCode::PARSE_FAIL;
                     }
 
-                    zmq::message_t rsp_msg(rsp_str.size());
-                    memcpy(rsp_msg.data(), rsp_str.data(), rsp_str.size());
-                    socket.send(rsp_msg, zmq::send_flags::none);
+                    rsp_str = UnsusbcribeRspMsg::gen_unsubscribe_rsp_msg(code, error_table[code]);
+                    send_response(socket, rsp_str);
                 }
                 break;
             case MsgType::HeartBeat:
                 {
-                    //心跳消息处理
-                    auto user_name = j.at("user_name").get<std::string>();
-                    code = subs_manager.set_live_stamp(user_name);
+                    HeartbeatMsg hb_msg;
+
+                    bool parse_res = HeartbeatMsg::from_message(receivedMsg, hb_msg);
+                    if (parse_res) {
+                        code = subs_manager.set_live_stamp(hb_msg.user_name);
+                    } else {
+                        code = ErrorCode::PARSE_FAIL;
+                    }
                     
                     rsp_str = HeartbeatRspMsg::gen_heartbeat_rsp_msg(code, error_table[code]);
-                    zmq::message_t rsp_msg(rsp_str.size());
-                    memcpy(rsp_msg.data(), rsp_str.data(), rsp_str.size());
-                    socket.send(rsp_msg, zmq::send_flags::none);
+                    send_response(socket, rsp_str);
                 }
                 break;
             default:

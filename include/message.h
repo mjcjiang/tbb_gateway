@@ -12,6 +12,7 @@
 #include <string>
 #include <map>
 #include <nlohmann/json.hpp>
+#include <spdlog/spdlog.h>
 #include "error_table.h"
 #include "custome_time.h"
 
@@ -40,6 +41,23 @@ struct LoginMsg {
         j["user_passwd"] = passwd;
         return j.dump();
     }
+
+    static bool from_message(const std::string &msg_str, LoginMsg &login_msg) {
+        try {
+            nlohmann::json j = nlohmann::json::parse(msg_str);
+            if (j.at("msg_type").get<MsgType>() == MsgType::Login) {
+                login_msg.user_name = j.at("user_name").get<std::string>();
+                login_msg.user_passwd = j.at("user_passwd").get<std::string>();
+            } else {
+                SPDLOG_WARN("nlohmann::json parse message type error...");
+                return false;
+            }
+        } catch (const std::exception &e) {
+            SPDLOG_WARN("nlohmann::json parse message string failed...{}", e.what());
+            return false;
+        }
+        return true;
+    }
 };
 
 //登陆响应消息
@@ -56,6 +74,24 @@ struct LoginRspMsg {
         j["push_address"] = push_address;
         return j.dump();
     }
+
+    static bool from_message(const std::string &msg_str, LoginRspMsg &login_rsp_msg) {
+        try {
+            nlohmann::json j = nlohmann::json::parse(msg_str);
+            if (j.at("msg_type").get<MsgType>() == MsgType::LoginRsp) {
+                login_rsp_msg.error_code = j.at("error_code").get<ErrorCode>();
+                login_rsp_msg.error_msg = j.at("error_msg").get<std::string>();
+                login_rsp_msg.push_address = j.at("pish_address").get<std::string>();
+            } else {
+                SPDLOG_WARN("nlohmann::json parse message type error...");
+                return false;
+            }
+        } catch (const std::exception &e) {
+            SPDLOG_WARN("nlohmann::json parse message string failed...{}", e.what());
+            return false;
+        }
+        return true;
+    }
 };
 
 //登出消息
@@ -70,6 +106,23 @@ struct LogoutMsg {
         j["user_passwd"] = passwd;
         return j.dump();
     }
+
+    static bool from_message(const std::string &msg_str, LogoutMsg &logout_msg) {
+        try {
+            nlohmann::json j = nlohmann::json::parse(msg_str);
+            if (j.at("msg_type").get<MsgType>() == MsgType::Logout) {
+                logout_msg.user_name = j.at("user_name").get<std::string>();
+                logout_msg.user_passwd = j.at("user_passwd").get<std::string>();
+            } else {
+                SPDLOG_WARN("nlohmann::json parse message type error...");
+                return false;
+            }
+        } catch (const std::exception &e) {
+            SPDLOG_WARN("nlohmann::json parse message string failed...{}", e.what());
+            return false;
+        }
+        return true;
+    }
 };
 
 //登出响应消息
@@ -83,6 +136,23 @@ struct LogoutRspMsg {
         j["error_code"] = error_code;
         j["error_msg"] = error_msg;
         return j.dump();
+    }
+
+    static bool from_message(const std::string &msg_str, LogoutRspMsg &logout_rsp_msg) {
+        try {
+            nlohmann::json j = nlohmann::json::parse(msg_str);
+            if (j.at("msg_type").get<MsgType>() == MsgType::LogoutRsp) {
+                logout_rsp_msg.error_code = j.at("error_code").get<ErrorCode>();
+                logout_rsp_msg.error_msg = j.at("error_msg").get<std::string>();
+            } else {
+                SPDLOG_WARN("nlohmann::json parse message type error...");
+                return false;
+            }
+        } catch (const std::exception &e) {
+            SPDLOG_WARN("nlohmann::json parse message string failed...{}", e.what());
+            return false;
+        }
+        return true;
     }
 };
 
@@ -103,6 +173,26 @@ struct SusbcribeMsg {
         }
         return j.dump();
     }
+
+    static bool from_message(const std::string &msg_str, SusbcribeMsg &subs_msg) {
+        try {
+            nlohmann::json j = nlohmann::json::parse(msg_str);
+            if (j.at("msg_type").get<MsgType>() == MsgType::Subscribe) {
+                subs_msg.user_name = j.at("user_name").get<std::string>();
+                subs_msg.user_passwd = j.at("user_passwd").get<std::string>();
+                for (auto &inst : j.at("insts")) {
+                    subs_msg.insts.push_back(inst.get<std::string>());
+                }
+            } else {
+                SPDLOG_WARN("nlohmann::json parse message type error...");
+                return false;
+            }
+        } catch (const std::exception &e) {
+            SPDLOG_WARN("nlohmann::json parse message string failed...{}", e.what());
+            return false;
+        }
+        return true;
+    }
 };
 
 //行情订阅响应
@@ -116,6 +206,23 @@ struct SusbcribeRspMsg {
         j["error_code"] = error_code;
         j["error_msg"] = error_msg;
         return j.dump();
+    }
+
+    static bool from_message(const std::string &msg_str, SusbcribeRspMsg &subs_rsp_msg) {
+        try {
+            nlohmann::json j = nlohmann::json::parse(msg_str);
+            if (j.at("msg_type").get<MsgType>() == MsgType::LogoutRsp) {
+                subs_rsp_msg.error_code = j.at("error_code").get<ErrorCode>();
+                subs_rsp_msg.error_msg = j.at("error_msg").get<std::string>();
+            } else {
+                SPDLOG_WARN("nlohmann::json parse message type error...");
+                return false;
+            }
+        } catch (const std::exception &e) {
+            SPDLOG_WARN("nlohmann::json parse message string failed...{}", e.what());
+            return false;
+        }
+        return true;
     }
 };
 
@@ -136,6 +243,26 @@ struct UnsusbcribeMsg {
         }
         return j.dump();
     }
+
+    static bool from_message(const std::string &msg_str, UnsusbcribeMsg &unsubs_msg) {
+        try {
+            nlohmann::json j = nlohmann::json::parse(msg_str);
+            if (j.at("msg_type").get<MsgType>() == MsgType::Unsubscribe) {
+                unsubs_msg.user_name = j.at("user_name").get<std::string>();
+                unsubs_msg.user_passwd = j.at("user_passwd").get<std::string>();
+                for (auto &inst : j.at("insts")) {
+                    unsubs_msg.insts.push_back(inst.get<std::string>());
+                }
+            } else {
+                SPDLOG_WARN("nlohmann::json parse message type error...");
+                return false;
+            }
+        } catch (const std::exception &e) {
+            SPDLOG_WARN("nlohmann::json parse message string failed...{}", e.what());
+            return false;
+        }
+        return true;
+    }
 };
 
 //订阅取消响应
@@ -150,6 +277,23 @@ struct UnsusbcribeRspMsg {
         j["error_msg"] = error_msg;
         return j.dump();
     }
+
+    static bool from_message(const std::string &msg_str, UnsusbcribeRspMsg &unsubs_rsp_msg) {
+        try {
+            nlohmann::json j = nlohmann::json::parse(msg_str);
+            if (j.at("msg_type").get<MsgType>() == MsgType::UnsubscribeRsp) {
+                unsubs_rsp_msg.error_code = j.at("error_code").get<ErrorCode>();
+                unsubs_rsp_msg.error_msg = j.at("error_msg").get<std::string>();
+            } else {
+                SPDLOG_WARN("nlohmann::json parse message type error...");
+                return false;
+            }
+        } catch (const std::exception &e) {
+            SPDLOG_WARN("nlohmann::json parse message string failed...{}", e.what());
+            return false;
+        }
+        return true;
+    }
 };
 
 //心跳消息
@@ -160,6 +304,22 @@ struct HeartbeatMsg {
         j["msg_type"] = MsgType::HeartBeat;
         j["user_name"] = user_name;
         return j.dump();
+    }
+
+    static bool from_message(const std::string &msg_str, HeartbeatMsg &hb_msg) {
+        try {
+            nlohmann::json j = nlohmann::json::parse(msg_str);
+            if (j.at("msg_type").get<MsgType>() == MsgType::HeartBeat) {
+                hb_msg.user_name = j.at("user_name").get<std::string>();
+            } else {
+                SPDLOG_WARN("nlohmann::json parse message type error...");
+                return false;
+            }
+        } catch (const std::exception &e) {
+            SPDLOG_WARN("nlohmann::json parse message string failed...{}", e.what());
+            return false;
+        }
+        return true;
     }
 };
 
@@ -174,6 +334,23 @@ struct HeartbeatRspMsg {
         j["error_code"] = error_code;
         j["error_msg"] = error_msg;
         return j.dump();
+    }
+
+    static bool from_message(const std::string &msg_str, HeartbeatRspMsg &hb_rsp_msg) {
+        try {
+            nlohmann::json j = nlohmann::json::parse(msg_str);
+            if (j.at("msg_type").get<MsgType>() == MsgType::HeartBeatRsp) {
+                hb_rsp_msg.error_code = j.at("error_code").get<ErrorCode>();
+                hb_rsp_msg.error_msg = j.at("error_msg").get<std::string>();
+            } else {
+                SPDLOG_WARN("nlohmann::json parse message type error...");
+                return false;
+            }
+        } catch (const std::exception &e) {
+            SPDLOG_WARN("nlohmann::json parse message string failed...{}", e.what());
+            return false;
+        }
+        return true;
     }
 };
 

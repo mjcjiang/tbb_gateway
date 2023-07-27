@@ -19,7 +19,8 @@ enum class ErrorCode {
     INVALID_INST,
     ALREADY_LOGIN,
     BINDING_FAIL,
-    ERASE_FAIL
+    ERASE_FAIL,
+    PARSE_FAIL
 };
 
 extern std::map<ErrorCode, std::string> error_table;
