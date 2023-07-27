@@ -16,7 +16,7 @@ int main() {
     zmq::message_t login_request(login_msg.size());
     memcpy(login_request.data(), login_msg.data(), login_msg.size());
     SPDLOG_INFO("Client send login request: {}", login_msg);
-    zmq::send_result_t send_res = socket.send(login_request, zmq::send_flags::none);
+    zmq::send_result_t send_login_res = socket.send(login_request, zmq::send_flags::none);
 
     //接收登陆响应
     zmq::message_t response;
@@ -31,6 +31,29 @@ int main() {
             auto error_msg = j.at("error_msg").get<std::string>();
             auto push_address = j.at("push_address").get<std::string>();
             SPDLOG_INFO("error_code: {}, error_msg: {}, push_address: {}", static_cast<int>(error_code), error_msg, push_address);
+        }
+    }
+
+    //行情订阅
+    std::vector<std::string> insts = {"IF2308", "IF2309"};
+    std::string subs_msg = SusbcribeMsg::gen_subscribe_msg("hjiang", "never_stop_learning", insts);
+    zmq::message_t subs_request(subs_msg.size());
+    memcpy(subs_request.data(), subs_msg.data(), subs_msg.size());
+    SPDLOG_INFO("Client send login request: {}", subs_msg);
+    zmq::send_result_t send_subs_res = socket.send(subs_request, zmq::send_flags::none);
+
+    //行情订阅响应
+    zmq::message_t subs_response;
+    zmq::recv_result_t recv_subs_res = socket.recv(subs_response, zmq::recv_flags::none);
+    std::string receivedSubsMsg(static_cast<char*>(subs_response.data()), subs_response.size());
+    
+    j = json::parse(receivedSubsMsg);
+    if (j.contains("msg_type")) {
+        MsgType msg_type = j.at("msg_type").get<MsgType>();
+        if (msg_type == MsgType::SubscribeRsp) {
+            auto error_code = j.at("error_code").get<ErrorCode>();
+            auto error_msg = j.at("error_msg").get<std::string>();
+            SPDLOG_INFO("error_code: {}, error_msg: {}", static_cast<int>(error_code), error_msg);
         }
     }
 }

@@ -18,6 +18,9 @@
 
 using namespace oneapi::tbb;
 
+constexpr int CLIENT_DELAY_MAX = 20;      //客户端心跳超时上限
+constexpr int CLIENT_CHECK_INTERVAL = 5;  //检查客户端超时的时间间隔
+
 //zeromq socket通信控制类
 class SockControlBlock {
 public:
@@ -60,6 +63,8 @@ public:
     ErrorCode get_sock_address(const std::string& user_name, std::string& push_address);
     //设置指定用户的保活时间戳
     ErrorCode set_live_stamp(const std::string& user_name);
+    //用户活跃情况检查
+    void check_user_alive();
 private:
     SocketControlTable sock_table_;
     SubscribeTable subs_table_;

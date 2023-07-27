@@ -189,3 +189,35 @@ ErrorCode SubscriberManager::set_live_stamp(const std::string &user_name) {
     }
     return ErrorCode::NO_ERROR;
 }
+
+void SubscriberManager::check_user_alive() {
+    //获取当前时间戳
+    std::vector<std::string> delayed_users;
+    
+    uint64_t cur_stamp = TimeProc::get_timestamp_in_seconds();
+    for(auto& sock_it : sock_table_) {
+        uint64_t prev_stamp = sock_it.second.get_msg_stamp();
+        if ((cur_stamp - prev_stamp) > CLIENT_DELAY_MAX) {
+            SPDLOG_WARN("User {} not alive anymore..., remove user", sock_it.first);
+            delayed_users.push_back(sock_it.first);
+        } 
+    }
+
+    for (auto& user : delayed_users) {
+        //删除通信控制表中的超时用户节点
+        SocketControlTable::accessor a;
+        auto isFind = sock_table_.find(a, user);
+        if (isFind) {
+            sock_table_.erase(a);
+        }
+
+        //删除订阅表中超时用户节点
+        for(auto& subs_it : subs_table_) {
+            UserList::accessor u;
+            auto isFind = subs_it.second.find(u, user);
+            if (isFind) {
+                subs_it.second.erase(u);
+            }
+        }
+    }
+}

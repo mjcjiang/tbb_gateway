@@ -19,7 +19,10 @@ void signalHandler(int signal) {
 
 void heartbeat_check(SubscriberManager *pManager) {
     while (true) {
-        
+        //pManager->tell_subscriber_info();
+        pManager->check_user_alive();
+        //pManager->tell_subscriber_info();
+        std::this_thread::sleep_for(std::chrono::seconds(CLIENT_CHECK_INTERVAL));
     }
 }
 
@@ -80,6 +83,8 @@ int main() {
                     auto user_name = j.at("user_name").get<std::string>();
                     auto user_password = j.at("user_passwd").get<std::string>();
 
+                    subs_manager.set_live_stamp(user_name);
+                    
                     //TODO: 账号合法性校验
                     if (msg_type == MsgType::Login) {
                         code = subs_manager.add_user(user_name);
@@ -112,6 +117,8 @@ int main() {
                     for(auto& inst : j.at("insts")) {
                         insts.push_back(inst.get<std::string>());
                     }    
+
+                    subs_manager.set_live_stamp(user_name);
                     
                     //TODO: 账号合法性校验
                     if (msg_type == MsgType::Subscribe) {
@@ -132,18 +139,17 @@ int main() {
                     //心跳消息处理
                     auto user_name = j.at("user_name").get<std::string>();
                     code = subs_manager.set_live_stamp(user_name);
+                    
                     rsp_str = HeartbeatRspMsg::gen_heartbeat_rsp_msg(code, error_table[code]);
-
                     zmq::message_t rsp_msg(rsp_str.size());
                     memcpy(rsp_msg.data(), rsp_str.data(), rsp_str.size());
                     socket.send(rsp_msg, zmq::send_flags::none);
                 }
                 break;
             default:
+                SPDLOG_WARN("Unknown message type: {}", static_cast<int>(msg_type));
                 break;
             }
-        } else {
-            //deal with wrong type messages
         }
     }
 
