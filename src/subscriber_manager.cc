@@ -3,8 +3,9 @@
 #include <algorithm>
 #include <iostream>
 
-SockControlBlock::SockControlBlock()
-    :push_sock_(std::make_shared<CustomPushSocket>()) {
+SockControlBlock::SockControlBlock(const std::string& sock_addr)
+    :push_sock_(std::make_shared<CustomPushSocket>(sock_addr, zmq::send_flags::dontwait)),
+     sock_addr_(sock_addr) {
 }
 
 void SockControlBlock::set_msg_stamp(uint64_t stamp) {

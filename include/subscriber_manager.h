@@ -24,7 +24,7 @@ constexpr int CLIENT_CHECK_INTERVAL = 5;  //检查客户端超时的时间间隔
 //zeromq socket通信控制类
 class SockControlBlock {
 public:
-    SockControlBlock();
+    SockControlBlock(const std::string& sock_addr = "tcp://*:0");
     ~SockControlBlock() = default;
     void set_msg_stamp(uint64_t stamp);
     uint64_t get_msg_stamp();
@@ -34,6 +34,7 @@ public:
     std::string get_bind_addr();
 private:
     std::shared_ptr<CustomPushSocket> push_sock_;
+    std::string sock_addr_;
     uint64_t last_msg_stamp_;
     bool is_binded = false;
 };

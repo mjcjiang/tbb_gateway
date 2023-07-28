@@ -14,11 +14,14 @@
 
 class CustomPushSocket {
 public:
-    CustomPushSocket():context(1), socket(context, ZMQ_PUSH) {}
+    //默认让zmq自动绑定地址，当系统恢复时，可以手动传入特定地址
+    //默认发送flags是none
+    CustomPushSocket(const std::string& bind_addr = "tcp://*:0", const zmq::send_flags& flag = zmq::send_flags::none)
+        :context(1), socket(context, ZMQ_PUSH), bind_addr(bind_addr), send_flags(flag) {}
 
     bool bind() {
         try {
-            socket.bind("tcp://*:0");
+            socket.bind(bind_addr);
             bind_addr = socket.get(zmq::sockopt::last_endpoint);
             SPDLOG_INFO("socket(PUSH) bind to {}", bind_addr);
             return true;
@@ -32,7 +35,7 @@ public:
         try {
             zmq::message_t zmqMessage(message.size());
             memcpy(zmqMessage.data(), message.data(), message.size());
-            auto res = socket.send(zmqMessage, zmq::send_flags::none);
+            auto res = socket.send(zmqMessage, send_flags);
             if (!res.has_value()) {
                 SPDLOG_INFO("socket(PUSH) send failed...");
                 return false;
@@ -50,11 +53,13 @@ private:
     zmq::context_t context;
     zmq::socket_t socket;
     std::string bind_addr;
+    zmq::send_flags send_flags;
 };
 
 class CustomPullSocket {
 public:
-    CustomPullSocket(const std::string& conn_addr):context(1), socket(context, ZMQ_PULL), conn_addr(conn_addr) {}
+    CustomPullSocket(const std::string& conn_addr, const zmq::recv_flags& recv_flags = zmq::recv_flags::none):
+        context(1), socket(context, ZMQ_PULL), conn_addr(conn_addr), recv_flags(recv_flags) {}
 
     bool connect() {
         try {
@@ -69,7 +74,7 @@ public:
 
     std::string recv() {
         zmq::message_t receivedMessage;
-        auto res = socket.recv(receivedMessage, zmq::recv_flags::none);
+        auto res = socket.recv(receivedMessage, recv_flags);
         if (!res.has_value()) {
             SPDLOG_INFO("socket(PULL) recv failed...");
             return "";
@@ -81,6 +86,7 @@ private:
     zmq::context_t context;
     zmq::socket_t socket;
     std::string conn_addr;
+    zmq::recv_flags recv_flags;
 };
 
 #endif //CUSTOME_SOCKET_H
