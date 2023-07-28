@@ -46,8 +46,10 @@ int main() {
 
     //启动心跳检查线程
     std::thread hb_check(heartbeat_check, &subs_manager);
-    
+
+    //获取信号量单例
     Semaphore &sem = Semaphore::GetInstance();
+    
     //建立和交易所行情前置机的联系
     CThostFtdcMdApi *pUserMdApi = CThostFtdcMdApi::CreateFtdcMdApi("", false, false);
     MdHandler md_handler(pUserMdApi, &subs_manager);
@@ -65,7 +67,11 @@ int main() {
     sem.Wait();
     md_handler.set_logging_status(true);
     SPDLOG_INFO("Finish login...");
-   
+
+    //行情订阅
+    std::vector<std::string> insts = {"IF2308", "IF2309"};
+    md_handler.SubscribeMarketData(insts);
+    
     //处理客户端消息
     zmq::context_t context(1);
     zmq::socket_t socket(context, zmq::socket_type::rep);
@@ -119,9 +125,8 @@ int main() {
                 break;
             case MsgType::Subscribe:
                 {
-                    SusbcribeMsg subs_msg;
-                 
-                    bool parse_res = SusbcribeMsg::from_message(receivedMsg, subs_msg);
+                    SubscribeMsg subs_msg;
+                    bool parse_res = SubscribeMsg::from_message(receivedMsg, subs_msg);
                     if (parse_res) {
                         subs_manager.set_live_stamp(subs_msg.user_name);
                         code = subs_manager.process_subscribe(subs_msg.user_name, subs_msg.insts);
@@ -129,15 +134,14 @@ int main() {
                         code = ErrorCode::PARSE_FAIL;
                     }
 
-                    rsp_str = SusbcribeRspMsg::gen_subscribe_rsp_msg(code, error_table[code]);
+                    rsp_str = SubscribeRspMsg::gen_subscribe_rsp_msg(code, error_table[code]);
                     send_response(socket, rsp_str);
                 }
                 break;
             case MsgType::Unsubscribe:
                 {
-                    UnsusbcribeMsg unsubs_msg;
-                   
-                    bool parse_res = UnsusbcribeMsg::from_message(receivedMsg, unsubs_msg);
+                    UnsubscribeMsg unsubs_msg;
+                    bool parse_res = UnsubscribeMsg::from_message(receivedMsg, unsubs_msg);
                     if (parse_res) {
                         subs_manager.set_live_stamp(unsubs_msg.user_name);
                         code = subs_manager.process_unsubscribe(unsubs_msg.user_name, unsubs_msg.insts);
@@ -145,7 +149,7 @@ int main() {
                         code = ErrorCode::PARSE_FAIL;
                     }
 
-                    rsp_str = UnsusbcribeRspMsg::gen_unsubscribe_rsp_msg(code, error_table[code]);
+                    rsp_str = UnsubscribeRspMsg::gen_unsubscribe_rsp_msg(code, error_table[code]);
                     send_response(socket, rsp_str);
                 }
                 break;

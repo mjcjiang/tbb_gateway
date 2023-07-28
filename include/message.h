@@ -16,6 +16,11 @@
 #include "error_table.h"
 #include "custome_time.h"
 
+constexpr int INSTRUMENT_ID_LEN = 32;
+constexpr int PRODUCT_ID_LEN = 32;
+constexpr int DATE_LEN = 9;
+constexpr int EXCHANGE_ID_LEN = 9;
+
 enum class MsgType : int {
     Login = 100,
     LoginRsp = 101,
@@ -26,7 +31,20 @@ enum class MsgType : int {
     Unsubscribe = 106,
     UnsubscribeRsp = 107,
     HeartBeat = 108,
-    HeartBeatRsp = 109
+    HeartBeatRsp = 109,
+    Tick = 110
+};
+
+enum class InstrumentType: int8_t {
+    Unknown = 0,   //未知
+    Stock,         //普通股票
+    Future,        //期货
+    Bond,          //债券
+    StockOption,   //股票期权
+    Fund,          //基金
+    TechStock,     //科创板股票
+    Index,         //指数
+    Repo           //回购
 };
 
 // 登陆消息
@@ -81,7 +99,7 @@ struct LoginRspMsg {
             if (j.at("msg_type").get<MsgType>() == MsgType::LoginRsp) {
                 login_rsp_msg.error_code = j.at("error_code").get<ErrorCode>();
                 login_rsp_msg.error_msg = j.at("error_msg").get<std::string>();
-                login_rsp_msg.push_address = j.at("pish_address").get<std::string>();
+                login_rsp_msg.push_address = j.at("push_address").get<std::string>();
             } else {
                 SPDLOG_WARN("nlohmann::json parse message type error...");
                 return false;
@@ -157,7 +175,7 @@ struct LogoutRspMsg {
 };
 
 //行情订阅请求
-struct SusbcribeMsg {
+struct SubscribeMsg {
     std::string user_name;
     std::string user_passwd;
     std::vector<std::string> insts;
@@ -174,7 +192,7 @@ struct SusbcribeMsg {
         return j.dump();
     }
 
-    static bool from_message(const std::string &msg_str, SusbcribeMsg &subs_msg) {
+    static bool from_message(const std::string &msg_str, SubscribeMsg &subs_msg) {
         try {
             nlohmann::json j = nlohmann::json::parse(msg_str);
             if (j.at("msg_type").get<MsgType>() == MsgType::Subscribe) {
@@ -196,7 +214,7 @@ struct SusbcribeMsg {
 };
 
 //行情订阅响应
-struct SusbcribeRspMsg {
+struct SubscribeRspMsg {
     ErrorCode error_code;
     std::string error_msg;
 
@@ -208,7 +226,7 @@ struct SusbcribeRspMsg {
         return j.dump();
     }
 
-    static bool from_message(const std::string &msg_str, SusbcribeRspMsg &subs_rsp_msg) {
+    static bool from_message(const std::string &msg_str, SubscribeRspMsg &subs_rsp_msg) {
         try {
             nlohmann::json j = nlohmann::json::parse(msg_str);
             if (j.at("msg_type").get<MsgType>() == MsgType::LogoutRsp) {
@@ -227,7 +245,7 @@ struct SusbcribeRspMsg {
 };
 
 //订阅取消请求
-struct UnsusbcribeMsg {
+struct UnsubscribeMsg {
     std::string user_name;
     std::string user_passwd;
     std::vector<std::string> insts;
@@ -244,7 +262,7 @@ struct UnsusbcribeMsg {
         return j.dump();
     }
 
-    static bool from_message(const std::string &msg_str, UnsusbcribeMsg &unsubs_msg) {
+    static bool from_message(const std::string &msg_str, UnsubscribeMsg &unsubs_msg) {
         try {
             nlohmann::json j = nlohmann::json::parse(msg_str);
             if (j.at("msg_type").get<MsgType>() == MsgType::Unsubscribe) {
@@ -266,7 +284,7 @@ struct UnsusbcribeMsg {
 };
 
 //订阅取消响应
-struct UnsusbcribeRspMsg {
+struct UnsubscribeRspMsg {
     ErrorCode error_code;
     std::string error_msg;
 
@@ -278,7 +296,7 @@ struct UnsusbcribeRspMsg {
         return j.dump();
     }
 
-    static bool from_message(const std::string &msg_str, UnsusbcribeRspMsg &unsubs_rsp_msg) {
+    static bool from_message(const std::string &msg_str, UnsubscribeRspMsg &unsubs_rsp_msg) {
         try {
             nlohmann::json j = nlohmann::json::parse(msg_str);
             if (j.at("msg_type").get<MsgType>() == MsgType::UnsubscribeRsp) {
@@ -351,6 +369,78 @@ struct HeartbeatRspMsg {
             return false;
         }
         return true;
+    }
+};
+
+struct TickData {
+    char trading_day[DATE_LEN];                 //交易日
+    uint64_t update_time;                       //数据生成时间
+    char instrument_id[INSTRUMENT_ID_LEN];      //合约ID
+    char exchange_id[EXCHANGE_ID_LEN];          //交易所ID
+    char product_id[PRODUCT_ID_LEN];
+    double last_price;                          //最新价
+    double pre_settlement_price;                //昨结价
+    double pre_close_price;                     //昨收价
+    double pre_open_interest;                   //昨持仓量
+    double open_price;                          //今开盘
+    double high_price;                          //最高价
+    double low_price;                           //最低价
+    int64_t volume;                             //数量
+    double turnover;                            //成交金额
+    double open_interest;                       //持仓量
+    double close_price;                         //收盘价
+    double settlement_price;                    //结算价
+    double upper_limit_price;                   //涨停板价
+    double lower_limit_price;                   //跌停板价
+
+    double bid_price[5];                        //申买价
+    double ask_price[5];                        //申卖价
+    int64_t bid_volume[5];                      //申买量
+    int64_t ask_volume[5];                      //申卖量
+    
+    double mark_price = 0;
+    double mark_iv = 0;
+    double underlying_price = 0;
+    double bid_iv = 0;
+    double ask_iv = 0;
+    double delta = 0;
+    double gamma = 0;
+    double theta = 0;
+    double vega = 0;
+    InstrumentType instrument_type;
+    
+    std::string to_string() const {
+        nlohmann::json j;
+        j["msg_type"] = MsgType::Tick;
+        j["trading_day"] = trading_day;
+        j["update_time"] = update_time;
+        j["instrument_id"] = instrument_id;
+        j["exchange_id"] = exchange_id;
+        j["product_id"] = product_id;
+        j["last_price"] = last_price;
+        j["open_price"] = open_price;
+        j["high_price"] = high_price;
+        j["low_price"] = low_price;
+        j["volume"] = volume;
+        j["turnover"] = turnover;
+        j["open_interest"] = open_interest;
+        j["bid_price_1"] = bid_price[0];
+        j["ask_price_1"] = ask_price[0];
+        j["bid_volume_1"] = bid_volume[0];
+        j["ask_volume_1"] = ask_volume[0];
+        j["mark_price"] = mark_price;
+        j["instrument_type"] = instrument_type;
+        if (instrument_type == InstrumentType::StockOption) {
+            j["mark_iv"] = mark_iv;
+            j["underlying_price"] = underlying_price;
+            j["bid_iv"] = bid_iv;
+            j["ask_iv"] = ask_iv;
+            j["delta"] = delta;
+            j["gamma"] = gamma;
+            j["theta"] = theta;
+            j["vega"] = vega;
+        }
+        return j.dump();
     }
 };
 
