@@ -107,6 +107,19 @@ SockControlBlock* SubscriberManager::get_control_block(const std::string& user_n
     }    
     return nullptr;
 }
+
+ErrorCode SubscriberManager::initialize_subscribe_table(const std::string& inst) {
+    SubscribeTable::accessor s;
+    bool isSubscribed = subs_table_.find(s, inst);
+    if (!isSubscribed) {
+        //表中不存在对该产品的订阅
+        const auto itemIsNew = subs_table_.insert(s, inst);
+        if (itemIsNew) {
+            s->second = UserList();
+        }
+    }
+    return ErrorCode::NO_ERROR;
+}
  
 ErrorCode SubscriberManager::process_subscribe(const std::string &user_name, const std::vector<std::string> &insts) {
     SocketControlTable::accessor a;
@@ -202,21 +215,47 @@ void SubscriberManager::check_user_alive() {
             delayed_users.push_back(sock_it.first);
         } 
     }
-
+    
     for (auto& user : delayed_users) {
         //删除通信控制表中的超时用户节点
         SocketControlTable::accessor a;
+        SPDLOG_INFO("tag1");
+
+        std::cout << user << std::endl;
         auto isFind = sock_table_.find(a, user);
         if (isFind) {
+            SPDLOG_INFO("hag1");
             sock_table_.erase(a);
+            SPDLOG_INFO("hag2");
         }
 
+        SPDLOG_INFO("tag2");
         //删除订阅表中超时用户节点
         for(auto& subs_it : subs_table_) {
             UserList::accessor u;
             auto isFind = subs_it.second.find(u, user);
             if (isFind) {
                 subs_it.second.erase(u);
+            }
+        }
+
+        SPDLOG_INFO("tag3");
+        SPDLOG_INFO("{} deleted...", user);
+    }
+}
+
+void SubscriberManager::push_message(const std::string& inst_id, const std::string& message) {
+    SubscribeTable::accessor s;
+    bool isSubscribed = subs_table_.find(s, inst_id);
+    if (isSubscribed) {
+        for(auto& users_it : s->second) {
+            SocketControlTable::accessor c;
+            bool isLogin = sock_table_.find(c, users_it.first);
+            if (isLogin) {
+                bool send_res = c->second.send(message);
+                if (!send_res) {
+                    SPDLOG_WARN("Send {} of {} to {}", message, inst_id, c->first);
+                }
             }
         }
     }

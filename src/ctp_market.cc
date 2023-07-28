@@ -1,5 +1,7 @@
 #include "ctp_market.h"
 #include "date/date.h"
+#include "message.h"
+#include "custome_time.h"
 
 void MdHandler::OnFrontConnected() {
     SPDLOG_INFO("Market front mechine connection finish!");
@@ -99,6 +101,9 @@ void MdHandler::SubscribeMarketData(const std::vector<std::string>& instruments)
             int result = m_Api->SubscribeMarketData(ppInstrumentID, a);
             if (result == 0) {
                 SPDLOG_INFO("market subcribe request 1... send success...");
+                for(int i = 0; i < a; i++) {
+                    m_Subsmng->initialize_subscribe_table(ppInstrumentID[i]);
+                }
             } else {
                 SPDLOG_INFO("market subcribe request 1... send failed, error code = {}", result);
             }
@@ -113,6 +118,9 @@ void MdHandler::SubscribeMarketData(const std::vector<std::string>& instruments)
             int result = m_Api->SubscribeMarketData(ppInstrumentID, count2);
             if (result == 0) {
                 SPDLOG_INFO("market subcribe request 2... send success...");
+                for(int i = 0; i < count2; i++) {
+                    m_Subsmng->initialize_subscribe_table(ppInstrumentID[i]);
+                }
             } else {
                 SPDLOG_INFO("market subcribe request 2... send failed, error code = {}", result);
             }
@@ -225,6 +233,20 @@ void MdHandler::OnRspUnSubMarketData(CThostFtdcSpecificInstrumentField *pSpecifi
 
 void MdHandler::OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMarketData) {
     if (pDepthMarketData) {
+        TickData tick{};
+        memcpy(tick.trading_day, pDepthMarketData->TradingDay, DATE_LEN);
+        tick.update_time = TimeProc::get_timestamp_in_milliseconds();
+        memcpy(tick.instrument_id, pDepthMarketData->InstrumentID, INSTRUMENT_ID_LEN);
+        memcpy(tick.exchange_id, pDepthMarketData->ExchangeID, EXCHANGE_ID_LEN);
+        //memcpy(tick.product_id, pDepthMarketData->)
+
+        std::cout << tick.to_string() << std::endl;
+        m_Subsmng->push_message(tick.instrument_id, tick.to_string());
+    }
+
+    /*
+    if (pDepthMarketData) {
+        SPDLOG_INFO("</OnRtnDepthMarketData>");
         SPDLOG_INFO("TradingDay {}", pDepthMarketData->TradingDay);
         SPDLOG_INFO("InstrumentID {}", pDepthMarketData->InstrumentID);
         SPDLOG_INFO("ExchangeID {}", pDepthMarketData->ExchangeID);
@@ -269,6 +291,7 @@ void MdHandler::OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMarke
         SPDLOG_INFO("BidPrice5 {}", (pDepthMarketData->BidPrice5 > 10000000) ? 0 : pDepthMarketData->BidPrice5);
         SPDLOG_INFO("AskPrice5 {}", (pDepthMarketData->AskPrice5 > 10000000) ? 0 : pDepthMarketData->AskPrice5);
         SPDLOG_INFO("AveragePrice {}", (pDepthMarketData->AveragePrice > 10000000) ? 0 : pDepthMarketData->AveragePrice);
+        SPDLOG_INFO("</OnRtnDepthMarketData>");
     }
-    SPDLOG_INFO("</OnRtnDepthMarketData>");
+    */
 }

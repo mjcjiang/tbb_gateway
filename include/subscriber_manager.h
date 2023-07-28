@@ -53,6 +53,8 @@ public:
     ErrorCode delete_user(const std::string& user_name);
     //获取指定用户的通信控制模块
     SockControlBlock* get_control_block(const std::string& user_name);
+    //初始化订阅表中某个产品的订阅列表
+    ErrorCode initialize_subscribe_table(const std::string& inst);
     //处理用户行情订阅消息
     ErrorCode process_subscribe(const std::string& user_name, const std::vector<std::string>& insts);
     //处理用户行情退定消息
@@ -65,6 +67,8 @@ public:
     ErrorCode set_live_stamp(const std::string& user_name);
     //用户活跃情况检查
     void check_user_alive();
+    //根据instrument_id进行消息推送
+    void push_message(const std::string& inst_id, const std::string& message);
 private:
     SocketControlTable sock_table_;
     SubscribeTable subs_table_;
