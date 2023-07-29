@@ -208,7 +208,6 @@ ErrorCode SubscriberManager::set_live_stamp(const std::string &user_name) {
 }
 
 void SubscriberManager::check_user_alive() {
-    //获取当前时间戳
     std::vector<std::string> delayed_users;
     
     uint64_t cur_stamp = TimeProc::get_timestamp_in_seconds();

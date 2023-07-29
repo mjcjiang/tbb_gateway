@@ -20,9 +20,9 @@ void signalHandler(int signal) {
 
 void heartbeat_check(SubscriberManager *pManager) {
     while (true) {
-        pManager->tell_subscriber_info();
         pManager->check_user_alive();
         pManager->tell_subscriber_info();
+        pManager->save_socket_and_subscribe_table("./data/socket_and_subscribe_info.json");
         std::this_thread::sleep_for(std::chrono::seconds(CLIENT_CHECK_INTERVAL));
     }
 }

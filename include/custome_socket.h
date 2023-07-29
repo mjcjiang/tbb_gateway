@@ -12,6 +12,35 @@
 #include <string>
 #include <spdlog/spdlog.h>
 
+class CustomRepSocket {
+public:
+    CustomRepSocket(const std::string &bind_addr = "tcp://*:0",
+                    const zmq::recv_flags& recv_flags = zmq::recv_flags::none,
+                    const zmq::send_flags& send_flags = zmq::send_flags::dontwait)
+        :context(1), socket(context, ZMQ_REP), bind_addr(bind_addr), recv_flags(recv_flags), send_flags(send_flags) {
+    }
+
+    bool bind() {
+        try {
+            socket.bind(bind_addr);
+            bind_addr = socket.get(zmq::sockopt::last_endpoint);
+            SPDLOG_INFO("socket(REP) bind to {}", bind_addr);
+            return true;
+        } catch (const zmq::error_t &ex) {
+            SPDLOG_INFO("socket(REP) bind failed...");
+            return false;
+        }
+    }
+
+    //bool recv() {}
+private:
+    zmq::context_t context;
+    zmq::socket_t socket;
+    std::string bind_addr;
+    zmq::send_flags send_flags;
+    zmq::recv_flags recv_flags;
+};
+
 class CustomPushSocket {
 public:
     //默认让zmq自动绑定地址，当系统恢复时，可以手动传入特定地址
