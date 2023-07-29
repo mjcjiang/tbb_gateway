@@ -42,6 +42,7 @@ int main() {
         SPDLOG_ERROR("Failed to fetch account.json");
     }
 
+    //落日志设置
     set_default_daily_logger("market_server");
 
     //初始化订阅者管理器

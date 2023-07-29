@@ -2,6 +2,8 @@
 #include "custome_time.h"
 #include <algorithm>
 #include <iostream>
+#include <fstream>
+#include <nlohmann/json.hpp>
 
 SockControlBlock::SockControlBlock(const std::string& sock_addr)
     :push_sock_(std::make_shared<CustomPushSocket>(sock_addr, zmq::send_flags::dontwait)),
@@ -255,5 +257,31 @@ void SubscriberManager::push_message(const std::string& inst_id, const std::stri
                 }
             }
         }
+    }
+}
+
+void SubscriberManager::save_socket_and_subscribe_table(const std::string &path) {
+    std::ofstream file(path, std::ios::trunc);
+    if (file.is_open()) {
+        nlohmann::json j;
+        j["socket_table"] = nlohmann::json::object();
+        for (auto &item : sock_table_) {
+            j["socket_table"][item.first] = nlohmann::json::object();
+            j["socket_table"][item.first]["push_addr"] = item.second.get_bind_addr();
+            j["socket_table"][item.first]["live_stamp"] = item.second.get_msg_stamp();
+        }
+
+        j["subscribe_table"] = nlohmann::json::object();
+        for (auto &item : subs_table_) {
+            j["subscribe_table"][item.first] = nlohmann::json::array();
+            for (auto &elem : item.second) {
+                j["subscribe_table"][item.first].push_back(elem.first);
+            }
+        }
+
+        file << j.dump(4);
+        file.close();
+    } else {
+        SPDLOG_WARN("Open file {} for write fail...", path);
     }
 }

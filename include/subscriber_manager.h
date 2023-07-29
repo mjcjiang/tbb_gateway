@@ -71,6 +71,7 @@ public:
     //根据instrument_id进行消息推送
     void push_message(const std::string& inst_id, const std::string& message);
     //保存订阅路由
+    void save_socket_and_subscribe_table(const std::string& path);
 private:
     SocketControlTable sock_table_;
     SubscribeTable subs_table_;

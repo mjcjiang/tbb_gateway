@@ -30,10 +30,17 @@ execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/
 
 file(COPY ${CMAKE_SOURCE_DIR}/deps/iceoryx-1.0.0/bin/iox-roudi DESTINATION apps)
 file(COPY ${CMAKE_SOURCE_DIR}/configs DESTINATION apps)
+
 set(LOGS_DIR "${PROJECT_BINARY_DIR}/apps/logs")
 if(NOT EXISTS ${LOGS_DIR})
     file(MAKE_DIRECTORY ${LOGS_DIR})
-endif()             
+endif()
+
+set(DATA_DIR "${PROJECT_BINARY_DIR}/apps/data")
+if(NOT EXISTS ${DATA_DIR})
+    file(MAKE_DIRECTORY ${DATA_DIR})
+endif()
+
 set(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/lib")
 
 add_subdirectory(deps)
