@@ -45,7 +45,7 @@ int main() {
     }
 
     //行情订阅
-    std::vector<std::string> insts = {"IF2308", "IF2309"};
+    std::vector<std::string> insts = {"IF2308"};
     std::string subs_msg = SubscribeMsg::gen_subscribe_msg(user_name, user_passwd, insts);
     SPDLOG_INFO("Client send login request: {}", subs_msg);
     send_request(socket, subs_msg);
@@ -84,7 +84,11 @@ int main() {
         if (pull_socket.connect()) {
             while (true) {
                 std::string recv_msg = pull_socket.recv();
-                SPDLOG_INFO("recv_msg: {}", recv_msg);
+                if (recv_msg == "") {
+                    continue;
+                } else {
+                    SPDLOG_INFO("recv_msg: {}", recv_msg);
+                }
             }
         }
     }

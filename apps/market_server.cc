@@ -69,7 +69,7 @@ int main() {
     SPDLOG_INFO("Finish login...");
 
     //行情订阅
-    std::vector<std::string> insts = {"IF2308", "IF2309"};
+    std::vector<std::string> insts = {"IF2308"};
     md_handler.SubscribeMarketData(insts);
     
     //处理客户端消息
@@ -156,7 +156,6 @@ int main() {
             case MsgType::HeartBeat:
                 {
                     HeartbeatMsg hb_msg;
-
                     bool parse_res = HeartbeatMsg::from_message(receivedMsg, hb_msg);
                     if (parse_res) {
                         code = subs_manager.set_live_stamp(hb_msg.user_name);

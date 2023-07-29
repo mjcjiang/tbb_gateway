@@ -12,7 +12,7 @@ int main() {
     while(1) {
         sock.send("This is a pushing message...");
         std::cout << "push a message out" << std::endl;
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::this_thread::sleep_for(std::chrono::seconds(30));
     }
     return 0;
 }

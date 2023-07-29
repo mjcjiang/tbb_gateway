@@ -76,7 +76,6 @@ public:
         zmq::message_t receivedMessage;
         auto res = socket.recv(receivedMessage, recv_flags);
         if (!res.has_value()) {
-            SPDLOG_INFO("socket(PULL) recv failed...");
             return "";
         }
         std::string message(static_cast<char*>(receivedMessage.data()), receivedMessage.size());
