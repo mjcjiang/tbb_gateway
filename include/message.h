@@ -229,7 +229,7 @@ struct SubscribeRspMsg {
     static bool from_message(const std::string &msg_str, SubscribeRspMsg &subs_rsp_msg) {
         try {
             nlohmann::json j = nlohmann::json::parse(msg_str);
-            if (j.at("msg_type").get<MsgType>() == MsgType::LogoutRsp) {
+            if (j.at("msg_type").get<MsgType>() == MsgType::SubscribeRsp) {
                 subs_rsp_msg.error_code = j.at("error_code").get<ErrorCode>();
                 subs_rsp_msg.error_msg = j.at("error_msg").get<std::string>();
             } else {

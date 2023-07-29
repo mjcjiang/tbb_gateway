@@ -198,6 +198,7 @@ ErrorCode SubscriberManager::set_live_stamp(const std::string &user_name) {
     bool isLogin = sock_table_.find(a, user_name);
     if (isLogin) {
         a->second.set_msg_stamp(TimeProc::get_timestamp_in_seconds());
+        SPDLOG_INFO("{} set_msg_stamp in {}", user_name, TimeProc::get_timestamp_in_seconds());
     } else {
         return ErrorCode::INVALID_USER;
     }
@@ -212,7 +213,8 @@ void SubscriberManager::check_user_alive() {
     for(auto& sock_it : sock_table_) {
         uint64_t prev_stamp = sock_it.second.get_msg_stamp();
         if ((cur_stamp - prev_stamp) > CLIENT_DELAY_MAX) {
-            SPDLOG_WARN("User {} not alive anymore..., remove user", sock_it.first);
+            SPDLOG_WARN("User {} not alive anymore, cur_stamp:{}, prev_stamp: {}..., remove user",
+                        sock_it.first, cur_stamp, prev_stamp);
             delayed_users.push_back(sock_it.first);
         } 
     }
@@ -220,17 +222,13 @@ void SubscriberManager::check_user_alive() {
     for (auto& user : delayed_users) {
         //删除通信控制表中的超时用户节点
         SocketControlTable::accessor a;
-        SPDLOG_INFO("tag1");
 
         std::cout << user << std::endl;
         auto isFind = sock_table_.find(a, user);
         if (isFind) {
-            SPDLOG_INFO("hag1");
             sock_table_.erase(a);
-            SPDLOG_INFO("hag2");
         }
 
-        SPDLOG_INFO("tag2");
         //删除订阅表中超时用户节点
         for(auto& subs_it : subs_table_) {
             UserList::accessor u;
@@ -239,8 +237,6 @@ void SubscriberManager::check_user_alive() {
                 subs_it.second.erase(u);
             }
         }
-
-        SPDLOG_INFO("tag3");
         SPDLOG_INFO("{} deleted...", user);
     }
 }
@@ -255,7 +251,7 @@ void SubscriberManager::push_message(const std::string& inst_id, const std::stri
             if (isLogin) {
                 bool send_res = c->second.send(message);
                 if (!send_res) {
-                    SPDLOG_WARN("Send {} of {} to {}", message, inst_id, c->first);
+                    SPDLOG_WARN("Fail send {} of {} to {}", message, inst_id, c->first);
                 }
             }
         }

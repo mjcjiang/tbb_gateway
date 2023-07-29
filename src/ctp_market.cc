@@ -8,6 +8,33 @@ void MdHandler::OnFrontConnected() {
     send_signal();
 }
 
+void MdHandler::OnHeartBeatWarning(int nTimeLapse) {
+    SPDLOG_INFO("{} passed, no message received from front end...", nTimeLapse);
+}
+
+void MdHandler::OnFrontDisconnected(int nReason) {
+    switch (nReason) {
+    case 0x1001:
+        SPDLOG_WARN("OnFrontDisconnected, reason: network read failed");
+        break;
+    case 0x1002:
+        SPDLOG_WARN("OnFrontDisconnected, reason: network write failed");
+        break;
+    case 0x2001:
+        SPDLOG_WARN("OnFrontDisconnected, reason: receive heartbeat timeout");
+        break;
+    case 0x2002:
+        SPDLOG_WARN("OnFrontDisconnected, reason: send heartbeat timeout");
+        break;
+    case 0x2003:
+        SPDLOG_WARN("OnFrontDisconnected, reason: recv dataframe error");
+        break;
+    default:
+        SPDLOG_WARN("OnFrontDisconnected, reason: unknow");
+        break;
+    }
+}
+
 void MdHandler::ReqUserLogin(const AccountInfo& account_info) {
     CThostFtdcReqUserLoginField reqUserLogin = {0};
     memcpy(reqUserLogin.BrokerID, account_info.broker_id.c_str(), account_info.broker_id.size());
@@ -239,8 +266,7 @@ void MdHandler::OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMarke
         memcpy(tick.instrument_id, pDepthMarketData->InstrumentID, INSTRUMENT_ID_LEN);
         memcpy(tick.exchange_id, pDepthMarketData->ExchangeID, EXCHANGE_ID_LEN);
         //memcpy(tick.product_id, pDepthMarketData->)
-
-        std::cout << tick.to_string() << std::endl;
+        //std::cout << tick.to_string() << std::endl;
         m_Subsmng->push_message(tick.instrument_id, tick.to_string());
     }
 

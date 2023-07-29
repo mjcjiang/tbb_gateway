@@ -37,6 +37,12 @@ public:
     //reload from CThostFtdcMdSpi, when connect to front mechine finished
     virtual void OnFrontConnected();
 
+    //reload from CThostFtdcMdSpi, when timeout/2 passed, no front message recved
+    virtual void OnHeartBeatWarning(int nTimeLapse);
+    
+    //reload from CThostFtdcMdSpi, when disconnect from front mechine
+    virtual void OnFrontDisconnected(int nReason);
+
     //request login
     void ReqUserLogin(const AccountInfo& account_info);
 

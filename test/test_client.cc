@@ -19,7 +19,7 @@ int main() {
     zmq::socket_t socket(context, zmq::socket_type::req);
     socket.connect("tcp://localhost:5566");
 
-    std::string user_name = "hjiang";
+    std::string user_name = "zhangjiang";
     std::string user_passwd = "never_stop_learning";
 
     //登陆
@@ -47,7 +47,7 @@ int main() {
     //行情订阅
     std::vector<std::string> insts = {"IF2308"};
     std::string subs_msg = SubscribeMsg::gen_subscribe_msg(user_name, user_passwd, insts);
-    SPDLOG_INFO("Client send login request: {}", subs_msg);
+    SPDLOG_INFO("Client send subscribe request: {}", subs_msg);
     send_request(socket, subs_msg);
 
     //行情订阅响应

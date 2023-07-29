@@ -11,6 +11,7 @@
 #include "message.h"
 #include "error_table.h"
 #include "subscriber_manager.h"
+#include "custome_logger.h"
 
 void signalHandler(int signal) {
     std::cout << "Ctrl+C signal received. Exiting..." << std::endl;
@@ -40,6 +41,8 @@ int main() {
     if (res) {
         SPDLOG_ERROR("Failed to fetch account.json");
     }
+
+    set_default_daily_logger("market_server");
 
     //初始化订阅者管理器
     SubscriberManager subs_manager;
