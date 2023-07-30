@@ -4,6 +4,8 @@
 #include <iostream>
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include <boost/interprocess/sync/file_lock.hpp>
+#include <boost/interprocess/sync/scoped_lock.hpp>
 
 SockControlBlock::SockControlBlock(const std::string& sock_addr)
     :push_sock_(std::make_shared<CustomPushSocket>(sock_addr, zmq::send_flags::dontwait)),
@@ -260,27 +262,90 @@ void SubscriberManager::push_message(const std::string& inst_id, const std::stri
 }
 
 void SubscriberManager::save_socket_and_subscribe_table(const std::string &path) {
-    std::ofstream file(path, std::ios::trunc);
-    if (file.is_open()) {
-        nlohmann::json j;
-        j["socket_table"] = nlohmann::json::object();
-        for (auto &item : sock_table_) {
-            j["socket_table"][item.first] = nlohmann::json::object();
-            j["socket_table"][item.first]["push_addr"] = item.second.get_bind_addr();
-            j["socket_table"][item.first]["live_stamp"] = item.second.get_msg_stamp();
-        }
+    boost::interprocess::file_lock fileLock(path.c_str());
+    if (fileLock.try_lock()) {
+        std::ofstream file(path, std::ios::trunc);
+        if (file.is_open()) {      
+            nlohmann::json j;
+            j["socket_table"] = nlohmann::json::object();
+            for (auto &item : sock_table_) {
+                j["socket_table"][item.first] = nlohmann::json::object();
+                j["socket_table"][item.first]["push_addr"] = item.second.get_bind_addr();
+                j["socket_table"][item.first]["live_stamp"] = item.second.get_msg_stamp();
+            }
 
-        j["subscribe_table"] = nlohmann::json::object();
-        for (auto &item : subs_table_) {
-            j["subscribe_table"][item.first] = nlohmann::json::array();
-            for (auto &elem : item.second) {
-                j["subscribe_table"][item.first].push_back(elem.first);
+            j["subscribe_table"] = nlohmann::json::object();
+            for (auto &item : subs_table_) {
+                j["subscribe_table"][item.first] = nlohmann::json::array();
+                for (auto &elem : item.second) {
+                    j["subscribe_table"][item.first].push_back(elem.first);
+                }
+            }
+
+            file << j.dump(4);
+            file.close();
+        } else {
+            SPDLOG_WARN("Open file {} for write fail...", path);
+        }
+        fileLock.unlock();
+    }
+}
+
+void SubscriberManager::load_socket_and_subscribe_table(const std::string &path) {
+    sock_table_.clear();
+    subs_table_.clear();
+    
+    boost::interprocess::file_lock fileLock(path.c_str());
+    if (fileLock.try_lock()) {
+        std::ifstream file(path);
+        if (file.is_open()) {
+            nlohmann::json j = nlohmann::json::parse(file);
+
+            //加载通信路由表
+            if (j.contains("socket_table")) {
+                for (auto& el : j["socket_table"].items()) {
+                    SocketControlTable::accessor s;
+                    std::string user_name = el.key();
+                    bool isLogin = sock_table_.find(s, user_name);
+                    if (!isLogin) {
+                        uint64_t live_stamp = el.value().at("live_stamp").get<uint64_t>();
+                        std::string push_addr = el.value().at("push_addr").get<std::string>();
+                        bool isNewItem = sock_table_.insert(s, user_name);
+                        if (isNewItem) {
+                            s->second = SockControlBlock(push_addr);
+
+                            bool bindRes = s->second.bind();
+                            if (!bindRes) {
+                              SPDLOG_INFO(
+                                  "Socket bind {} failed, Delete control block",
+                                  push_addr);
+                              sock_table_.erase(s);
+                            }
+
+                            s->second.set_msg_stamp(TimeProc::get_timestamp_in_seconds());
+                        }
+                    }
+                }
+            }
+
+            //加载用户订阅表
+            if (j.contains("subscribe_table")) {
+                for (auto &el : j["subscribe_table"].items()) {
+                    SubscribeTable::accessor s;
+                    std::string inst = el.key();
+                    bool isSubscribed = subs_table_.find(s, inst);
+                    if (!isSubscribed) {
+                        bool isNewItem = subs_table_.insert(s, inst);
+                        if (isNewItem) {
+                            s->second = UserList();
+                            for (auto &user_name : el.value()) {
+                                s->second.insert({user_name, 1});
+                            }
+                        }
+                    }
+                }
             }
         }
-
-        file << j.dump(4);
-        file.close();
-    } else {
-        SPDLOG_WARN("Open file {} for write fail...", path);
+        fileLock.unlock();
     }
 }

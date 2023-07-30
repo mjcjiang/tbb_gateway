@@ -18,8 +18,12 @@
 
 using namespace oneapi::tbb;
 
-constexpr int CLIENT_DELAY_MAX = 20;      //客户端心跳超时上限
-constexpr int CLIENT_CHECK_INTERVAL = 5;  //检查客户端超时的时间间隔
+//客户端心跳超时上限
+constexpr int CLIENT_DELAY_MAX = 20;
+//检查客户端超时的时间间隔
+constexpr int CLIENT_CHECK_INTERVAL = 5;
+//保存通讯控制和订阅控制信息文件路径
+#define SOCK_SUBS_TABLE_PATH "./data/socket_and_subscribe_info.json"
 
 //zeromq socket通信控制类
 class SockControlBlock {
@@ -71,7 +75,9 @@ public:
     //根据instrument_id进行消息推送
     void push_message(const std::string& inst_id, const std::string& message);
     //保存订阅路由
-    void save_socket_and_subscribe_table(const std::string& path);
+    void save_socket_and_subscribe_table(const std::string& path = SOCK_SUBS_TABLE_PATH);
+    //加载订阅路由
+    void load_socket_and_subscribe_table(const std::string& path = SOCK_SUBS_TABLE_PATH);
 private:
     SocketControlTable sock_table_;
     SubscribeTable subs_table_;

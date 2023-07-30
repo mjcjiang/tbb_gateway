@@ -2,6 +2,7 @@
 #include "date/date.h"
 #include "message.h"
 #include "custome_time.h"
+#include <thread>
 
 void MdHandler::OnFrontConnected() {
     SPDLOG_INFO("Market front mechine connection finish!");
@@ -33,6 +34,8 @@ void MdHandler::OnFrontDisconnected(int nReason) {
         SPDLOG_WARN("OnFrontDisconnected, reason: unknow");
         break;
     }
+
+    m_sender->send(zmq::buffer("front disconnected..."), zmq::send_flags::none);
 }
 
 void MdHandler::ReqUserLogin(const AccountInfo& account_info) {
@@ -267,6 +270,8 @@ void MdHandler::OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMarke
         memcpy(tick.exchange_id, pDepthMarketData->ExchangeID, EXCHANGE_ID_LEN);
         //memcpy(tick.product_id, pDepthMarketData->)
         //std::cout << tick.to_string() << std::endl;
+        std::thread::id threadId = std::this_thread::get_id();
+        std::cout << "Current Thread ID: " << threadId << std::endl;
         m_Subsmng->push_message(tick.instrument_id, tick.to_string());
     }
 

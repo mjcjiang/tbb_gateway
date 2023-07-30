@@ -6,6 +6,14 @@
 
 int main() {
     SubscriberManager mng;
+    mng.load_socket_and_subscribe_table("socket_and_subscribe_info.json");
+    
+    while (true) {
+        mng.tell_subscriber_info();
+        std::this_thread::sleep_for(std::chrono::seconds(2));
+    }
+
+    /*
     mng.add_user("first_user");
 
     std::string push_addr;
@@ -21,5 +29,7 @@ int main() {
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
     }
+    */ 
+
     return 0;
 }

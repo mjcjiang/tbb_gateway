@@ -33,5 +33,8 @@ target_link_libraries(test_pull_socket zmq)
 add_executable(test_subs_manager test_subs_manager.cc)
 target_link_libraries(test_subs_manager tbb src_lib zmq)
 
+add_executable(test_inproc test_inproc.cc)
+target_link_libraries(test_inproc zmq)
+
 #add_executable(test_subscriber test_subscriber.cc)
 #target_link_libraries(test_subscriber tbb src_lib zmq)

@@ -17,6 +17,7 @@
 #include <memory>
 #include <thread>
 #include <mutex>
+#include <zmq.hpp>
 
 #include "semaphore.h"
 #include "spdlog/spdlog.h"
@@ -30,7 +31,11 @@ constexpr int INSTS_SEND_CHUNCK_SIZE = 500;      //限制最大的订阅单位
 class MdHandler : public CThostFtdcMdSpi {
 public:
     //constructor, need a valid pointer to CThostFtdcMdApi
-    MdHandler(CThostFtdcMdApi *pMdApi, SubscriberManager *pSubsMng) : m_Api(pMdApi), m_Subsmng(pSubsMng) {}
+    MdHandler(CThostFtdcMdApi *pMdApi, SubscriberManager *pSubsMng, zmq::context_t* inproc_context)
+        :m_Api(pMdApi), m_Subsmng(pSubsMng) {
+        m_sender = std::make_shared<zmq::socket_t>(*inproc_context, zmq::socket_type::push);
+        m_sender->bind("inproc://thread_channel");
+    }
 
     ~MdHandler() {}
 
@@ -91,6 +96,7 @@ private:
     bool isLogged_ = false;
     std::mutex mutex_;
     int m_RequestId = 1;
+    std::shared_ptr<zmq::socket_t> m_sender;
 };
 
 #endif // CTP_MARKET_H
