@@ -50,7 +50,6 @@ int main() {
 
     //加载路由表文件
     if(std::filesystem::exists(SOCK_SUBS_TABLE_PATH)) {
-        std::cout << "file ok" << std::endl;
         subs_manager.load_socket_and_subscribe_table();
     }
 
