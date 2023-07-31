@@ -34,8 +34,6 @@ void MdHandler::OnFrontDisconnected(int nReason) {
         SPDLOG_WARN("OnFrontDisconnected, reason: unknow");
         break;
     }
-
-    m_sender->send(zmq::buffer("front disconnected..."), zmq::send_flags::none);
 }
 
 void MdHandler::ReqUserLogin(const AccountInfo& account_info) {

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iostream>
 #include <fstream>
+#include <filesystem>
 #include <nlohmann/json.hpp>
 #include <boost/interprocess/sync/file_lock.hpp>
 #include <boost/interprocess/sync/scoped_lock.hpp>
@@ -185,7 +186,7 @@ ErrorCode SubscriberManager::process_unsubscribe(const std::string& user_name, c
 }
 
 void SubscriberManager::tell_subscriber_info() {
-    std::cout << "-----------subscribers infomation of mamager----------------\n"; 
+    std::cout << "-----------subscribers infomation of manager----------------\n"; 
     for(const auto& subs_it : subs_table_) {
         std::cout << "Inst: " << subs_it.first << std::endl;
         std::cout << "Subscriber: ";
@@ -262,6 +263,13 @@ void SubscriberManager::push_message(const std::string& inst_id, const std::stri
 }
 
 void SubscriberManager::save_socket_and_subscribe_table(const std::string &path) {
+    if(!std::filesystem::exists(path)) {
+        std::ofstream file(path);
+        if (file) {
+            file.close();
+        }
+    }
+    
     boost::interprocess::file_lock fileLock(path.c_str());
     if (fileLock.try_lock()) {
         std::ofstream file(path, std::ios::trunc);
@@ -294,8 +302,8 @@ void SubscriberManager::save_socket_and_subscribe_table(const std::string &path)
 void SubscriberManager::load_socket_and_subscribe_table(const std::string &path) {
     sock_table_.clear();
     subs_table_.clear();
-    
-    boost::interprocess::file_lock fileLock(path.c_str());
+
+    boost::interprocess::file_lock fileLock(path.c_str());    
     if (fileLock.try_lock()) {
         std::ifstream file(path);
         if (file.is_open()) {

@@ -74,8 +74,8 @@ int main() {
             if (hb_rsp_msg.error_code != ErrorCode::NO_ERROR) {
                 SPDLOG_WARN("HeartBeat Rsponse with error code: {}", static_cast<int>(hb_rsp_msg.error_code));
             } else {
-              SPDLOG_WARN("HeartBeat Rsponse in {}",
-                          TimeProc::get_timestamp_in_seconds());
+                SPDLOG_WARN("HeartBeat Rsponse in {}",
+                            TimeProc::get_timestamp_in_seconds());
             }
             std::this_thread::sleep_for(std::chrono::seconds(5));
         }

@@ -2,6 +2,7 @@
 #include <csignal>
 #include <thread>
 #include <chrono>
+#include <filesystem>
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
 #include "zmq.hpp"
@@ -12,8 +13,7 @@
 #include "error_table.h"
 #include "subscriber_manager.h"
 #include "custome_logger.h"
-
-zmq::context_t inproc_context(1);
+#include "custome_utils.h"
 
 void signalHandler(int signal) {
     std::cout << "Ctrl+C signal received. Exiting..." << std::endl;
@@ -29,47 +29,6 @@ void heartbeat_check(SubscriberManager *pManager) {
     }
 }
 
-void market_thread_func(SubscriberManager *pManager, AccountInfo *pAcctInfo) {
-    zmq::socket_t reciever(inproc_context, zmq::socket_type::pull);
-    reciever.connect("inproc://thread_channel");
-    
-    while (true) {
-        //获取信号量单例
-        Semaphore &sem = Semaphore::GetInstance();
-
-        //建立和交易所行情前置机的联系
-        CThostFtdcMdApi *pUserMdApi = CThostFtdcMdApi::CreateFtdcMdApi("", false, false);
-        MdHandler md_handler(pUserMdApi, pManager, &inproc_context);
-        pUserMdApi->RegisterSpi(&md_handler);
-        pUserMdApi->RegisterFront(const_cast<char *>(pAcctInfo->md_uri.c_str()));
-        pUserMdApi->Init();
-    
-        sem.Wait();
-        md_handler.set_connect_status(true);
-        SPDLOG_INFO("Front mechine connection established...");
-
-        //登陆行情前置机
-        SPDLOG_INFO("Start login...");
-        md_handler.ReqUserLogin(*pAcctInfo);
-        sem.Wait();
-        md_handler.set_logging_status(true);
-        SPDLOG_INFO("Finish login...");
-
-        pManager->load_socket_and_subscribe_table();
-
-        //行情订阅
-        std::vector<std::string> insts = {"IF2308"};
-        md_handler.SubscribeMarketData(insts);
-        
-        //等待会话断开的通知，否则一直堵塞在这个地方
-        zmq::message_t message;
-        zmq::recv_result_t res = reciever.recv(message, zmq::recv_flags::none);
-        if (res.has_value()) {
-            SPDLOG_WARN("Session Failed, relogin and subscribe...");
-        }
-    }
-}
-
 void send_response(zmq::socket_t& socket, const std::string &msg) {
     zmq::message_t rsp_msg(msg.size());
     memcpy(rsp_msg.data(), msg.data(), msg.size());
@@ -77,25 +36,47 @@ void send_response(zmq::socket_t& socket, const std::string &msg) {
 }
 
 int main() {
+    set_default_daily_logger("market_server");
     std::signal(SIGINT, signalHandler);
-    
+    Semaphore &sem = Semaphore::GetInstance();
+    SubscriberManager subs_manager;
+
+    //加载账户数据
     AccountInfo acct_info;
     int res = get_account_info("./configs/account.json", acct_info);
     if (res) {
         SPDLOG_ERROR("Failed to fetch account.json");
     }
-    
-    //落日志设置
-    set_default_daily_logger("market_server");
 
-    //初始化订阅者管理器
-    SubscriberManager subs_manager;
+    //加载路由表文件
+    if(std::filesystem::exists(SOCK_SUBS_TABLE_PATH)) {
+        std::cout << "file ok" << std::endl;
+        subs_manager.load_socket_and_subscribe_table();
+    }
 
-    //启动心跳检查线程
     std::thread hb_check(heartbeat_check, &subs_manager);
+    
+    //建立和交易所行情前置机的联系
+    CThostFtdcMdApi *pUserMdApi = CThostFtdcMdApi::CreateFtdcMdApi("", false, false);
+    MdHandler md_handler(pUserMdApi, &subs_manager);
+    pUserMdApi->RegisterSpi(&md_handler);
+    pUserMdApi->RegisterFront(const_cast<char *>(acct_info.md_uri.c_str()));
+    pUserMdApi->Init();
+    
+    sem.Wait();
+    md_handler.set_connect_status(true);
+    SPDLOG_INFO("Front mechine connection established...");
+    
+    //登陆行情前置机
+    SPDLOG_INFO("Start login...");
+    md_handler.ReqUserLogin(acct_info);
+    sem.Wait();
+    md_handler.set_logging_status(true);
+    SPDLOG_INFO("Finish login...");
 
-    //启动行情接收线程
-    std::thread market_thread(market_thread_func, &subs_manager, &acct_info);
+    //行情订阅
+    std::vector<std::string> insts = {"IF2308"};
+    md_handler.SubscribeMarketData(insts);    
     
     //处理客户端消息
     zmq::context_t context(1);
@@ -204,6 +185,5 @@ int main() {
     }
 
     hb_check.join();
-    market_thread.join();
     return 0;
 }

@@ -16,6 +16,11 @@
 },
 {
   "directory": "/home/hjiang/craft/tbb_gateway/build/src",
+  "command": "/usr/bin/c++  -I/home/hjiang/craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/craft/tbb_gateway/include -g -o CMakeFiles/src_lib.dir/custome_utils.cc.o -c /home/hjiang/craft/tbb_gateway/src/custome_utils.cc",
+  "file": "/home/hjiang/craft/tbb_gateway/src/custome_utils.cc"
+},
+{
+  "directory": "/home/hjiang/craft/tbb_gateway/build/src",
   "command": "/usr/bin/c++  -I/home/hjiang/craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/craft/tbb_gateway/include -g -o CMakeFiles/src_lib.dir/error_table.cc.o -c /home/hjiang/craft/tbb_gateway/src/error_table.cc",
   "file": "/home/hjiang/craft/tbb_gateway/src/error_table.cc"
 },
@@ -93,5 +98,10 @@
   "directory": "/home/hjiang/craft/tbb_gateway/build/test",
   "command": "/usr/bin/c++  -I/home/hjiang/craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/craft/tbb_gateway/include -g -o CMakeFiles/test_subs_manager.dir/test_subs_manager.cc.o -c /home/hjiang/craft/tbb_gateway/test/test_subs_manager.cc",
   "file": "/home/hjiang/craft/tbb_gateway/test/test_subs_manager.cc"
+},
+{
+  "directory": "/home/hjiang/craft/tbb_gateway/build/test",
+  "command": "/usr/bin/c++  -I/home/hjiang/craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/craft/tbb_gateway/include -g -o CMakeFiles/test_inproc.dir/test_inproc.cc.o -c /home/hjiang/craft/tbb_gateway/test/test_inproc.cc",
+  "file": "/home/hjiang/craft/tbb_gateway/test/test_inproc.cc"
 }
 ]
