@@ -16,6 +16,7 @@ include_directories(deps/json-3.11.2/single_include)
 include_directories(deps/spdlog-1.11.0/include)
 include_directories(deps/date-3.0.1/include)
 include_directories(deps/fmt-9.1.0/include)
+include_directories(deps/xtp-2.2.35/include)
 
 include_directories(include)
 
@@ -27,6 +28,7 @@ execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/
 execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/deps/onetbb-1.0.0/lib lib)
 execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/deps/date-3.0.1/lib lib)
 execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/deps/fmt-9.1.0/lib lib)
+execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/deps/xtp-2.2.35/lib lib)
 
 file(COPY ${CMAKE_SOURCE_DIR}/deps/iceoryx-1.0.0/bin/iox-roudi DESTINATION apps)
 file(COPY ${CMAKE_SOURCE_DIR}/configs DESTINATION apps)
