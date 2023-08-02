@@ -14,6 +14,7 @@
 
 #include <map>
 #include <string>
+#include <cstdint>
 
 struct AccountInfo {
     std::string account_id;
@@ -26,6 +27,15 @@ struct AccountInfo {
     std::string td_uri;
 };
 
-int get_account_info(const std::string &config_path, AccountInfo& acct_info);
+struct XtpInfo {
+    uint8_t client_id;
+    std::string login_password;
+    std::string key;
+    std::string td_address;
+    std::string md_address;
+};
+
+bool get_account_info(const std::string &config_path, AccountInfo& acct_info);
+bool get_xtp_info(const std::string& config_path, XtpInfo& xtp_info);
 
 #endif // CONFIG_FETCH_H
