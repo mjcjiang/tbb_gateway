@@ -13,7 +13,7 @@ class MyTraderSpi : public TraderSpi
 	virtual void OnDisconnected(uint64_t session_id, int reason);
 	virtual void OnQueryOptionAuctionInfo(XTPQueryOptionAuctionInfoRsp *option_info, XTPRI *error_info, int request_id, bool is_last, uint64_t session_id);
 
-	void setUserAPI(XTP::API::TraderApi* pApi) { pUserApi = pApi; }
+	void SetUserAPI(XTP::API::TraderApi* pApi) { pUserApi = pApi; }
     bool IsErrorRspInfo(XTPRI *pRspInfo);
  private:
 	XTP::API::TraderApi* pUserApi;
