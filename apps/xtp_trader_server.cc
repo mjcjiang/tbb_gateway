@@ -3,9 +3,13 @@
 #include "config_fetch.h"
 #include <spdlog/spdlog.h>
 #include <iostream>
+#include <chrono>
+#include <thread>
+#include <cstdlib>
 
 int main() {
     XtpInfo xtp_info;
+    int request_id = 1; 
     bool res = get_xtp_info("./configs/xtp.json", xtp_info);
     if (!res) {
         SPDLOG_INFO("Load config failed...");
@@ -48,7 +52,22 @@ int main() {
                     error_info->error_msg);
     }
 
+    //查询上交所全量的期权合约
+    /*
+    XTPQueryOptionAuctionInfoReq auction_req;
+    auction_req.market = XTP_MARKET_TYPE::XTP_MKT_SH_A;
+    memcpy(auction_req.ticker, "10005647", 8);
+    res = pUserApi->QueryOptionAuctionInfo(&auction_req, session_id, request_id);
+    if(res != 0) {
+        SPDLOG_WARN("QueryOptionAuctionInfo Failed...");
+    }
     
+    request_id++;
+    */
+
+    while(true) {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
     
     return 0;
 }

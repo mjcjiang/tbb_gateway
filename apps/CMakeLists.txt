@@ -9,3 +9,6 @@ target_link_libraries(market_server src_lib thostmduserapi_se zmq tbb)
 add_executable (xtp_trader_server xtp_trader_server.cc)
 target_link_libraries(xtp_trader_server src_lib xtptraderapi)
 
+add_executable (xtp_quote_server xtp_quote_server.cc)
+target_link_libraries(xtp_quote_server src_lib xtpquoteapi)
+

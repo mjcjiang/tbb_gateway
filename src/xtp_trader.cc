@@ -31,7 +31,9 @@ void MyTraderSpi::OnDisconnected(uint64_t session_id, int reason)
 
 void MyTraderSpi::OnQueryOptionAuctionInfo(XTPQueryOptionAuctionInfoRsp * option_info, XTPRI * error_info, int request_id, bool is_last, uint64_t session_id)
 {
-    
+    if (error_info->error_id != 0) {
+        std::cout << "error happend" << std::endl;
+    }
 }
 
 bool MyTraderSpi::IsErrorRspInfo(XTPRI *pRspInfo)
