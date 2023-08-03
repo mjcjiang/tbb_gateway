@@ -30,7 +30,8 @@ int main() {
 
     pUserApi->RegisterSpi(pUserSpi);
     pUserSpi->SetUserAPI(pUserApi);
-    
+
+    //登陆交易主机前台
     uint64_t session_id = pUserApi->Login(xtp_info.td_address.c_str(),
                                           xtp_info.td_port,
                                           xtp_info.user.c_str(),
@@ -46,6 +47,8 @@ int main() {
                     error_info->error_id,
                     error_info->error_msg);
     }
+
+    
     
     return 0;
 }
