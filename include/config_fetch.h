@@ -29,10 +29,13 @@ struct AccountInfo {
 
 struct XtpInfo {
     uint8_t client_id;
+    std::string user;
     std::string login_password;
     std::string key;
     std::string td_address;
+    int td_port;
     std::string md_address;
+    int md_port;
 };
 
 bool get_account_info(const std::string &config_path, AccountInfo& acct_info);

@@ -44,10 +44,13 @@ bool get_xtp_info(const std::string& config_path, XtpInfo& xtp_info) {
 
     json data = json::parse(file);
     xtp_info.client_id = data.at("client_id").get<uint8_t>();
+    xtp_info.user = data.value("user", "");
     xtp_info.login_password = data.value("login_password", "");
     xtp_info.key = data.value("key", "");
     xtp_info.md_address = data.value("td_address", "");
+    xtp_info.md_port = data["md_port"].get<int>();
     xtp_info.td_address = data.value("md_address", "");
+    xtp_info.td_port = data["td_port"].get<int>();
         
     return true;
 }
