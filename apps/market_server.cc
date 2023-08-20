@@ -36,7 +36,7 @@ void send_response(zmq::socket_t& socket, const std::string &msg) {
 }
 
 int main() {
-    set_default_daily_logger("market_server");
+    //set_default_daily_logger("market_server");
     std::signal(SIGINT, signalHandler);
     Semaphore &sem = Semaphore::GetInstance();
     SubscriberManager subs_manager;
@@ -44,7 +44,7 @@ int main() {
     //加载账户数据
     AccountInfo acct_info;
     int res = get_account_info("./configs/account.json", acct_info);
-    if (res) {
+    if (!res) {
         SPDLOG_ERROR("Failed to fetch account.json");
     }
 
@@ -54,18 +54,18 @@ int main() {
     }
 
     std::thread hb_check(heartbeat_check, &subs_manager);
-    
+
     //建立和交易所行情前置机的联系
     CThostFtdcMdApi *pUserMdApi = CThostFtdcMdApi::CreateFtdcMdApi("", false, false);
     MdHandler md_handler(pUserMdApi, &subs_manager);
     pUserMdApi->RegisterSpi(&md_handler);
     pUserMdApi->RegisterFront(const_cast<char *>(acct_info.md_uri.c_str()));
     pUserMdApi->Init();
-    
+
     sem.Wait();
     md_handler.set_connect_status(true);
     SPDLOG_INFO("Front mechine connection established...");
-    
+
     //登陆行情前置机
     SPDLOG_INFO("Start login...");
     md_handler.ReqUserLogin(acct_info);
@@ -74,30 +74,31 @@ int main() {
     SPDLOG_INFO("Finish login...");
 
     //行情订阅
-    std::vector<std::string> insts = {"IF2308"};
-    md_handler.SubscribeMarketData(insts);    
+    std::vector<std::string> insts = {"10005648"};
+    md_handler.SubscribeMarketData(insts);
     
     //处理客户端消息
     zmq::context_t context(1);
     zmq::socket_t socket(context, zmq::socket_type::rep);
-    socket.bind("tcp://*:5566"); 
+    socket.bind("tcp://*:5566");
     while (true) {
         zmq::message_t request;
         zmq::recv_result_t res = socket.recv(request, zmq::recv_flags::none);
         std::string receivedMsg(static_cast<char*>(request.data()), request.size());
+        std::cout << receivedMsg << std::endl;
         nlohmann::json j = nlohmann::json::parse(receivedMsg);
-        
+
         if (j.contains("msg_type")) {
             MsgType msg_type = j.at("msg_type").get<MsgType>();
             ErrorCode code = ErrorCode::NO_ERROR;
             std::string rsp_str;
-            
+
             switch (msg_type) {
             case MsgType::Login:
                 {
                     LoginMsg login_msg;
                     std::string push_addr = "";
-                    
+
                     bool parse_res = LoginMsg::from_message(receivedMsg, login_msg);
                     if (parse_res) {
                         subs_manager.set_live_stamp(login_msg.user_name);
@@ -167,7 +168,7 @@ int main() {
                     } else {
                         code = ErrorCode::PARSE_FAIL;
                     }
-                    
+
                     rsp_str = HeartbeatRspMsg::gen_heartbeat_rsp_msg(code, error_table[code]);
                     send_response(socket, rsp_str);
 

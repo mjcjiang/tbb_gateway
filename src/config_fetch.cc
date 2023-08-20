@@ -19,6 +19,7 @@ bool get_account_info(const std::string &config_path, AccountInfo& acct_info) {
     }
 
     json data = json::parse(file);
+
     acct_info.account_id = data.value("account_id", "");
     acct_info.password = data.value("password", "");
     acct_info.broker_id = data.value("broker_id", "");
@@ -27,7 +28,7 @@ bool get_account_info(const std::string &config_path, AccountInfo& acct_info) {
     acct_info.app_id = data.value("app_id", "");
     acct_info.md_uri = data.value("md_uri", "");
     acct_info.td_uri = data.value("td_uri", "");
-    
+
     return true;
 }
 

@@ -45,7 +45,7 @@ int main() {
     }
 
     //行情订阅
-    std::vector<std::string> insts = {"IF2308"};
+    std::vector<std::string> insts = {"IF2309"};
     std::string subs_msg = SubscribeMsg::gen_subscribe_msg(user_name, user_passwd, insts);
     SPDLOG_INFO("Client send subscribe request: {}", subs_msg);
     send_request(socket, subs_msg);
@@ -80,7 +80,7 @@ int main() {
             std::this_thread::sleep_for(std::chrono::seconds(5));
         }
     });
-    
+
     //开始接收行情
     if (subsRsp.error_code == ErrorCode::NO_ERROR) {
         CustomPullSocket pull_socket(loginRsp.push_address);

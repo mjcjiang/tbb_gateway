@@ -267,9 +267,9 @@ void MdHandler::OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMarke
         memcpy(tick.instrument_id, pDepthMarketData->InstrumentID, INSTRUMENT_ID_LEN);
         memcpy(tick.exchange_id, pDepthMarketData->ExchangeID, EXCHANGE_ID_LEN);
         //memcpy(tick.product_id, pDepthMarketData->)
-        //std::cout << tick.to_string() << std::endl;
-        std::thread::id threadId = std::this_thread::get_id();
-        std::cout << "Current Thread ID: " << threadId << std::endl;
+        std::cout << tick.to_string() << std::endl;
+        //std::thread::id threadId = std::this_thread::get_id();
+        //std::cout << "Current Thread ID: " << threadId << std::endl;
         m_Subsmng->push_message(tick.instrument_id, tick.to_string());
     }
 
