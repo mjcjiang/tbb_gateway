@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/build/apps",
-  "command": "/usr/bin/c++  -I/home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/include -g -o CMakeFiles/hacking_tbb.dir/hacking_tbb.cc.o -c /home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/apps/hacking_tbb.cc",
-  "file": "/home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/apps/hacking_tbb.cc"
-}
-]

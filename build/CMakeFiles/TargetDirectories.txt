@@ -1,9 +1,0 @@
-/home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/build/CMakeFiles/edit_cache.dir
-/home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/build/CMakeFiles/rebuild_cache.dir
-/home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/build/deps/CMakeFiles/edit_cache.dir
-/home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/build/deps/CMakeFiles/rebuild_cache.dir
-/home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/build/src/CMakeFiles/edit_cache.dir
-/home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/build/src/CMakeFiles/rebuild_cache.dir
-/home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/build/apps/CMakeFiles/hacking_tbb.dir
-/home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/build/apps/CMakeFiles/edit_cache.dir
-/home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/build/apps/CMakeFiles/rebuild_cache.dir

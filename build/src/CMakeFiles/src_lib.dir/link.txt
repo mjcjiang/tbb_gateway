@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../lib/libsrc_lib.a CMakeFiles/src_lib.dir/config_fetch.cc.o CMakeFiles/src_lib.dir/ctp_market.cc.o CMakeFiles/src_lib.dir/custome_logger.cc.o CMakeFiles/src_lib.dir/custome_utils.cc.o CMakeFiles/src_lib.dir/error_table.cc.o CMakeFiles/src_lib.dir/semaphore.cc.o CMakeFiles/src_lib.dir/subscriber_manager.cc.o CMakeFiles/src_lib.dir/xtp_quote.cc.o CMakeFiles/src_lib.dir/xtp_trader.cc.o
-/usr/bin/ranlib ../lib/libsrc_lib.a
