@@ -1,51 +1,17 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.12)
-PROJECT(gateway_project)
+PROJECT(hacking_tbb)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXE_LINKER_FLAGS "-Wl,-copy-dt-needed-entries")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_BUILD_TYPE Debug)
 
 ############################################################
-include_directories(deps/libzmq-4.3.4/include)
-include_directories(deps/cppzmq-4.9.0/include)
-include_directories(deps/ctp-6.6.1/include)
-include_directories(deps/boost-1.82.0/include)
-include_directories(deps/iceoryx-1.0.0/include/iceoryx/v)
 include_directories(deps/onetbb-1.0.0/include)
-include_directories(deps/json-3.11.2/single_include)
-include_directories(deps/spdlog-1.11.0/include)
-include_directories(deps/date-3.0.1/include)
-include_directories(deps/fmt-9.1.0/include)
-include_directories(deps/xtp-2.2.35/include)
-
 include_directories(include)
 
-execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/deps/libzmq-4.3.4/lib lib)
-execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/deps/cppzmq-4.9.0/lib lib)
-execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/deps/ctp-6.6.1/lib lib)
-execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/deps/boost-1.82.0/lib lib)
-execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/deps/iceoryx-1.0.0/lib lib)
 execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/deps/onetbb-1.0.0/lib lib)
-execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/deps/date-3.0.1/lib lib)
-execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/deps/fmt-9.1.0/lib lib)
-execute_process( COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/deps/xtp-2.2.35/lib lib)
-
-file(COPY ${CMAKE_SOURCE_DIR}/deps/iceoryx-1.0.0/bin/iox-roudi DESTINATION apps)
-file(COPY ${CMAKE_SOURCE_DIR}/configs DESTINATION apps)
-
-set(LOGS_DIR "${PROJECT_BINARY_DIR}/apps/logs")
-if(NOT EXISTS ${LOGS_DIR})
-    file(MAKE_DIRECTORY ${LOGS_DIR})
-endif()
-
-set(DATA_DIR "${PROJECT_BINARY_DIR}/apps/data")
-if(NOT EXISTS ${DATA_DIR})
-    file(MAKE_DIRECTORY ${DATA_DIR})
-endif()
-
 set(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/lib")
 
 add_subdirectory(deps)
 add_subdirectory(src)
 add_subdirectory(apps)
-add_subdirectory(test)
