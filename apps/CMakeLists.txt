@@ -1,7 +1,14 @@
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/lib)
 
-add_executable (hacking_tbb hacking_tbb.cc)
-target_link_libraries(hacking_tbb tbb)
+add_executable (config_read config_read.cc)
+target_link_libraries(config_read src_lib)
 
-add_executable (ch1 ch1.cc)
-target_link_libraries(ch1 tbb)
+add_executable (market_server market_server.cc)
+target_link_libraries(market_server src_lib thostmduserapi_se zmq tbb)
+
+add_executable (xtp_trader_server xtp_trader_server.cc)
+target_link_libraries(xtp_trader_server src_lib xtptraderapi)
+
+add_executable (xtp_quote_server xtp_quote_server.cc)
+target_link_libraries(xtp_quote_server src_lib xtpquoteapi)
+

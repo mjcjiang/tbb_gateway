@@ -1,12 +1,127 @@
 [
 {
-  "directory": "/home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/build/apps",
-  "command": "/usr/bin/c++  -I/home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/include -g -o CMakeFiles/hacking_tbb.dir/hacking_tbb.cc.o -c /home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/apps/hacking_tbb.cc",
-  "file": "/home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/apps/hacking_tbb.cc"
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/src",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/src_lib.dir/config_fetch.cc.o -c /home/hjiang/Craft/tbb_gateway/src/config_fetch.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/src/config_fetch.cc"
 },
 {
-  "directory": "/home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/build/apps",
-  "command": "/usr/bin/c++  -I/home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/include -g -o CMakeFiles/ch1.dir/ch1.cc.o -c /home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/apps/ch1.cc",
-  "file": "/home/hjiang/Craft/cpp_workout/multi_threading/tbb_concurrency/hacking_tbb/apps/ch1.cc"
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/src",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/src_lib.dir/ctp_market.cc.o -c /home/hjiang/Craft/tbb_gateway/src/ctp_market.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/src/ctp_market.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/src",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/src_lib.dir/custome_logger.cc.o -c /home/hjiang/Craft/tbb_gateway/src/custome_logger.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/src/custome_logger.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/src",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/src_lib.dir/custome_utils.cc.o -c /home/hjiang/Craft/tbb_gateway/src/custome_utils.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/src/custome_utils.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/src",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/src_lib.dir/error_table.cc.o -c /home/hjiang/Craft/tbb_gateway/src/error_table.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/src/error_table.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/src",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/src_lib.dir/semaphore.cc.o -c /home/hjiang/Craft/tbb_gateway/src/semaphore.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/src/semaphore.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/src",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/src_lib.dir/subscriber_manager.cc.o -c /home/hjiang/Craft/tbb_gateway/src/subscriber_manager.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/src/subscriber_manager.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/src",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/src_lib.dir/xtp_quote.cc.o -c /home/hjiang/Craft/tbb_gateway/src/xtp_quote.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/src/xtp_quote.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/src",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/src_lib.dir/xtp_trader.cc.o -c /home/hjiang/Craft/tbb_gateway/src/xtp_trader.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/src/xtp_trader.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/apps",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/config_read.dir/config_read.cc.o -c /home/hjiang/Craft/tbb_gateway/apps/config_read.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/apps/config_read.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/apps",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/market_server.dir/market_server.cc.o -c /home/hjiang/Craft/tbb_gateway/apps/market_server.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/apps/market_server.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/apps",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/xtp_trader_server.dir/xtp_trader_server.cc.o -c /home/hjiang/Craft/tbb_gateway/apps/xtp_trader_server.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/apps/xtp_trader_server.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/apps",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/xtp_quote_server.dir/xtp_quote_server.cc.o -c /home/hjiang/Craft/tbb_gateway/apps/xtp_quote_server.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/apps/xtp_quote_server.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/test",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/test_date.dir/test_date.cc.o -c /home/hjiang/Craft/tbb_gateway/test/test_date.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/test/test_date.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/test",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/test_client.dir/test_client.cc.o -c /home/hjiang/Craft/tbb_gateway/test/test_client.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/test/test_client.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/test",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/zmq_server.dir/zmq_server.cc.o -c /home/hjiang/Craft/tbb_gateway/test/zmq_server.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/test/zmq_server.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/test",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/zmq_client.dir/zmq_client.cc.o -c /home/hjiang/Craft/tbb_gateway/test/zmq_client.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/test/zmq_client.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/test",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/wu_server.dir/wu_server.cc.o -c /home/hjiang/Craft/tbb_gateway/test/wu_server.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/test/wu_server.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/test",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/wu_client.dir/wu_client.cc.o -c /home/hjiang/Craft/tbb_gateway/test/wu_client.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/test/wu_client.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/test",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/task_generator.dir/task_generator.cc.o -c /home/hjiang/Craft/tbb_gateway/test/task_generator.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/test/task_generator.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/test",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/test_auto_binding.dir/test_auto_binding.cc.o -c /home/hjiang/Craft/tbb_gateway/test/test_auto_binding.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/test/test_auto_binding.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/test",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/test_push_socket.dir/test_push_socket.cc.o -c /home/hjiang/Craft/tbb_gateway/test/test_push_socket.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/test/test_push_socket.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/test",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/test_pull_socket.dir/test_pull_socket.cc.o -c /home/hjiang/Craft/tbb_gateway/test/test_pull_socket.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/test/test_pull_socket.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/test",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/test_subs_manager.dir/test_subs_manager.cc.o -c /home/hjiang/Craft/tbb_gateway/test/test_subs_manager.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/test/test_subs_manager.cc"
+},
+{
+  "directory": "/home/hjiang/Craft/tbb_gateway/build/test",
+  "command": "/usr/bin/c++  -I/home/hjiang/Craft/tbb_gateway/deps/libzmq-4.3.4/include -I/home/hjiang/Craft/tbb_gateway/deps/cppzmq-4.9.0/include -I/home/hjiang/Craft/tbb_gateway/deps/ctp-6.6.1/include -I/home/hjiang/Craft/tbb_gateway/deps/boost-1.82.0/include -I/home/hjiang/Craft/tbb_gateway/deps/iceoryx-1.0.0/include/iceoryx/v -I/home/hjiang/Craft/tbb_gateway/deps/onetbb-1.0.0/include -I/home/hjiang/Craft/tbb_gateway/deps/json-3.11.2/single_include -I/home/hjiang/Craft/tbb_gateway/deps/spdlog-1.11.0/include -I/home/hjiang/Craft/tbb_gateway/deps/date-3.0.1/include -I/home/hjiang/Craft/tbb_gateway/deps/fmt-9.1.0/include -I/home/hjiang/Craft/tbb_gateway/deps/xtp-2.2.35/include -I/home/hjiang/Craft/tbb_gateway/include -g -o CMakeFiles/test_inproc.dir/test_inproc.cc.o -c /home/hjiang/Craft/tbb_gateway/test/test_inproc.cc",
+  "file": "/home/hjiang/Craft/tbb_gateway/test/test_inproc.cc"
 }
 ]
