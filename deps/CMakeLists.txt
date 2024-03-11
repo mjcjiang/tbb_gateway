@@ -1,1 +1,1 @@
-PROJECT(zeromq_project_deps)
+PROJECT(hacking_tbb)
